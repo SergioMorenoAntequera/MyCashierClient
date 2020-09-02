@@ -1,2 +1,2 @@
 backend/node_modules/
-backend/models/DBConnection.js
+backend/config/db.config.js
