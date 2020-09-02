@@ -3,30 +3,30 @@ var router = express.Router();
 
 var Product = require("../models/Product");
 
-// Get one product, depending in ID
-router.get('/', function(req, res, next) {
-  res.send('Getting one product');
-});
-
 // Get all products
 router.get('/all', function(req, res, next) {
-  res.send(Product.all());
-});
+  Product.all((result) => {
+    res.json(result);
+  }); 
+}); 
 
 // Add a product
-router.post('/', function(req, res, next) {
+router.post('/create', function(req, res, next) {
   res.send('Adding one product');
 });
 
-// Update a product
-router.put('/', function(req, res, next) {
+// Get one product, depending in ID
+router.get('/:id', function(req, res, next) {
+  res.send('Getting one product');
+});
+
+// Update a product, depending in ID
+router.put('/:id', function(req, res, next) {
   res.send('Updating one product');
 });
 
-
-
-
-router.delete('/', function(req, res, next) {
+// Deleting a product, depending in ID
+router.delete('/:id', function(req, res, next) {
   res.send('Deelting one product');
 });
 

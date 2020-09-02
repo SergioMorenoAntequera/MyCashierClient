@@ -1,6 +1,6 @@
 // MODELO
+const dbConnection = require("./DBConnection");
 const table = "products";
-const dbConnection = require("./DBConnection"); 
  
 module.exports = class Product {
 
@@ -10,12 +10,14 @@ module.exports = class Product {
         this.price = price;
     }
 
-    static all = () => {
-        return dbConnection.threadId;
-        // dbconnection.query('SELECT * FROM ' + table, function(err, rows, fields) {
-        //     if (err) throw err;
-        //     return rows;
-        // });
+    static async all(callbackGiveData) {
+        let sqlQuery = 'SELECT * FROM ' + table;
+
+        dbConnection.query(sqlQuery, function(err, rows) {
+            if (err) throw err;
+
+            callbackGiveData(rows);
+        });
     }
 
     // static test(){

@@ -2,14 +2,16 @@
 const dbConfig = require("../config/db.config");
 var mysql = require('mysql');
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
   database : dbConfig.database,
   host     : dbConfig.host,
   user     : dbConfig.user,
   password : dbConfig.password,
   insecureAuth : true,
+  // What the fuck were you looking for hm?
 });
- 
+
+
 
 connection.connect(function(err) {
     if (err) {
@@ -18,8 +20,9 @@ connection.connect(function(err) {
     }
 
     console.log('connected as id ' + connection.threadId);
-    module.exports = connection;
 });
+
+module.exports = connection;
 
 
 
