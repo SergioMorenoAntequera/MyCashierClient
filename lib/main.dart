@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/Product.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
-import 'package:http/http.dart' as http;
+import 'Models/Product.dart';
+// import 'dart:convert';
 
 void main() {
   runApp(MyApp());
@@ -38,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("TEST CODIGO QR"),
+        title: Text("My cashier woooo"),
       ),
       body: Center(
         child: Column(
@@ -50,33 +49,28 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {fetchProduct(2)},
+        onPressed: test,
         tooltip: 'Increment',
         child: Icon(Icons.add_to_home_screen),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 
-  Future<Product> fetchProduct(int id) async {
-    final response =
-        await http.get('http://192.168.1.78:3001/products/' + id.toString());
+  void test() async {
+    var product =
+        Product(id: null, barcode: "BARCODEAHI", name: "FLUTTER", price: 1.8);
+    // print(product.barcode.toString());
+    product = await product.create();
 
-    if (response.statusCode == 200) {
-      var jsonTest = json.decode(response.body);
-      var fetchedProduct = Product.fromJson(jsonTest[0]);
-      setState(() {
-        qrCodeValue = fetchedProduct.price.toString();
-      });
-      // print(fetchedProduct);
-    } else {
-      throw Exception('Failed to load the product');
-    }
+    setState(() {
+      // qrCodeValue =
+    });
   }
 
-  // Future _scan() async {
-  //   String cameraScanResult = await scanner.scan();
-  //   setState(() {
-  //     qrCodeValue = cameraScanResult;
-  //   });
-  // }
+  Future _scan() async {
+    String cameraScanResult = await scanner.scan();
+    setState(() {
+      qrCodeValue = cameraScanResult;
+    });
+  }
 }
