@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:qrcode_test/Models/Product.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -46,17 +50,33 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _scan,
+        onPressed: () => {fetchProduct(2)},
         tooltip: 'Increment',
-        child: Icon(Icons.camera_alt),
+        child: Icon(Icons.add_to_home_screen),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
-  Future _scan() async {
-    String cameraScanResult = await scanner.scan();
-    setState(() {
-      qrCodeValue = cameraScanResult;
-    });
+  Future<Product> fetchProduct(int id) async {
+    final response =
+        await http.get('http://192.168.1.78:3001/products/' + id.toString());
+
+    if (response.statusCode == 200) {
+      var jsonTest = json.decode(response.body);
+      var fetchedProduct = Product.fromJson(jsonTest[0]);
+      setState(() {
+        qrCodeValue = fetchedProduct.price.toString();
+      });
+      // print(fetchedProduct);
+    } else {
+      throw Exception('Failed to load the product');
+    }
   }
+
+  // Future _scan() async {
+  //   String cameraScanResult = await scanner.scan();
+  //   setState(() {
+  //     qrCodeValue = cameraScanResult;
+  //   });
+  // }
 }
