@@ -31,6 +31,19 @@ class Product {
     }
   }
 
+  static Future<Product> fetchByBarcode(barcode) async {
+    final response = await http
+        .get('http://192.168.1.78:3001/products/barcode/' + barcode.toString());
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      var fetchedProduct = Product.fromJson(jsonData[0]);
+      return fetchedProduct;
+    } else {
+      throw Exception('Failed to load the product');
+    }
+  }
+
   static Future<Product> all() async {
     final response = await http.get('http://192.168.1.78:3001/products');
 

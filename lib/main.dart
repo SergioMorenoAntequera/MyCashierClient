@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'themes.dart';
 
 import 'Views/ShoppingCart.dart';
 
@@ -11,15 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: mainTheme,
+      title: 'My cashier',
+      theme: defaultTheme,
       home: ShoppingCart(),
     );
   }
 }
-
-var mainTheme = ThemeData(
-  primarySwatch: Colors.blue,
-  visualDensity: VisualDensity.adaptivePlatformDensity,
-  textTheme: TextTheme(),
-);

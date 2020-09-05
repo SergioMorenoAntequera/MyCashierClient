@@ -31,7 +31,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_to_home_screen),
-        onPressed: () => {},
+        onPressed: () => {_startScanning()},
       ),
     );
   }
@@ -43,9 +43,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   // Method to Scan codes
   Future _startScanning() async {
-    String cameraScanResult = await scanner.scan();
+    String barcode = await scanner.scan();
+
+    var fetchedProduct = await Product.fetchByBarcode(barcode);
+    if (fetchedProduct is Product) {
+      print("resultado con producto");
+    }
+
     setState(() {
-      qrCodeValue = cameraScanResult;
+      _inTheTrolley.add(fetchedProduct);
     });
   }
 
