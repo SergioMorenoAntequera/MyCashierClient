@@ -44,15 +44,19 @@ class _ShoppingCartState extends State<ShoppingCart> {
   // Method to Scan codes
   Future _startScanning() async {
     String barcode = await scanner.scan();
+    // String barcode = "111111";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
-    if (fetchedProduct is Product) {
-      print("resultado con producto");
-    }
 
-    setState(() {
-      _inTheTrolley.add(fetchedProduct);
-    });
+    if (fetchedProduct == null) {
+      // No product found, adding new one
+      // We will have to show a modal or something
+    } else {
+      // Logic to show the product with this barcode
+      setState(() {
+        _inTheTrolley.add(fetchedProduct);
+      });
+    }
   }
 
   // Create product in database

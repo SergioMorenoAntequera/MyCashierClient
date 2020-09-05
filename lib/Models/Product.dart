@@ -37,8 +37,12 @@ class Product {
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
-      var fetchedProduct = Product.fromJson(jsonData[0]);
-      return fetchedProduct;
+      if (jsonData.length == 0) {
+        return null;
+      } else {
+        var fetchedProduct = Product.fromJson(jsonData[0]);
+        return fetchedProduct;
+      }
     } else {
       throw Exception('Failed to load the product');
     }
