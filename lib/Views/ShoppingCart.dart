@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrcode_test/Widgets/ProductWidget.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 import '../Models/Product.dart';
@@ -20,14 +21,14 @@ class _ShoppingCartState extends State<ShoppingCart> {
       appBar: AppBar(
         title: Text("My shopping cart"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Presiona el botón para escanear'),
-            Text("$qrCodeValue"),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: _inTheTrolley.length,
+        itemBuilder: (context, index) {
+          final product = _inTheTrolley[index];
+          return ProductWidget(
+            productShowing: product,
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_to_home_screen),
@@ -43,14 +44,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   // Method to Scan codes
   Future _startScanning() async {
-    String barcode = await scanner.scan();
-    // String barcode = "111111";
+    // String barcode = await scanner.scan();
+    String barcode = "11111";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
     if (fetchedProduct == null) {
       // No product found, adding new one
       // We will have to show a modal or something
+
     } else {
       // Logic to show the product with this barcode
       setState(() {
