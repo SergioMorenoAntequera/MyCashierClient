@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -19,8 +20,13 @@ class Product {
   }
 
   static Future<Product> fetchById(id) async {
-    final response =
-        await http.get('http://192.168.1.78:3001/products/' + id.toString());
+    dynamic config = await getHostConfig();
+
+    final response = await http.get(config['host'] +
+        ":" +
+        config['port'] +
+        "/products/id/" +
+        id.toString());
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
@@ -32,8 +38,13 @@ class Product {
   }
 
   static Future<Product> fetchByBarcode(barcode) async {
-    final response = await http
-        .get('http://192.168.1.78:3001/products/barcode/' + barcode.toString());
+    dynamic config = await getHostConfig();
+
+    final response = await http.get(config['host'] +
+        ":" +
+        config['port'] +
+        "/products/barcode/" +
+        barcode.toString());
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
@@ -83,5 +94,12 @@ class Product {
       // Todo bad
       throw Exception('Failed to load album');
     }
+  }
+
+  // Esto hjay que moverlo a model
+  static getHostConfig() async {
+    String host =
+        await rootBundle.loadString('assets/config/HostConnection.json');
+    return json.decode(host);
   }
 }

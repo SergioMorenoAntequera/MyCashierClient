@@ -13,7 +13,6 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
-  String qrCodeValue = "";
   var _inTheTrolley = <Product>[];
 
   @override

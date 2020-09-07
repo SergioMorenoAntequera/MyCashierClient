@@ -88,14 +88,12 @@ class _AddProductDialogState extends State<AddProductDialog> {
       return null;
     }
 
-    var product = Product(
+    Product(
       id: null,
       barcode: widget.barcodeToAdd,
       name: newProductNameController.text,
       price: double.parse(newProductPriceController.text),
-    );
-
-    product = await product.create();
+    ).create();
 
     Navigator.pop(context);
   }
