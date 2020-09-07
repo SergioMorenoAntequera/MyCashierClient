@@ -12,30 +12,24 @@ class AddProductDialog extends StatefulWidget {
 }
 
 class _AddProductDialogState extends State<AddProductDialog> {
-  var newProductNameController = TextEditingController();
-  var newProductPriceController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return new AlertDialog(
       // title: Text(":("),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Text("Ayyy, justo nos falta ese producto \n ¿Podrias ayudarnos?"),
-          buildTextFormField(
-            "Nombre",
-            "¿Como se llama el producto?",
-            newProductNameController,
-          ),
-          buildTextFormField(
-            "Precio",
-            "¿Cuanto cuesta?",
-            newProductPriceController,
-          ),
-        ],
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text("Ayyy, justo nos falta ese producto \n ¿Podrias ayudarnos?"),
+            buildNameFormField(),
+            buildPriceFormField(),
+          ],
+        ),
       ),
       actions: [
         FlatButton(
@@ -46,16 +40,40 @@ class _AddProductDialogState extends State<AddProductDialog> {
     );
   }
 
-  buildTextFormField(title, validatorMessage, controller) {
+  // Product Name Input
+  var newProductNameController = TextEditingController();
+  buildNameFormField() {
     return Column(
       children: [
-        SizedBox(height: 5),
-        Text(title),
+        Text("Nombre"),
         TextFormField(
-          controller: controller,
+          controller: newProductNameController,
           validator: (value) {
             if (value.isEmpty) {
-              return validatorMessage;
+              return "Introduce un nombre por favor";
+            }
+            return null;
+          },
+        ),
+      ],
+    );
+  }
+
+  // Product price Input
+  static var newProductPriceController = TextEditingController();
+  buildPriceFormField() {
+    return Column(
+      children: [
+        Text("Precio"),
+        TextFormField(
+          keyboardType: TextInputType.number,
+          controller: newProductPriceController,
+          validator: (value) {
+            if (value.isEmpty) {
+              return "¿Cuando cuesta?";
+            }
+            if (value.contains(",")) {
+              newProductPriceController.text = value.replaceAll(",", ".");
             }
             return null;
           },
@@ -66,6 +84,10 @@ class _AddProductDialogState extends State<AddProductDialog> {
 
   // Create product in database
   void _createNewProduct() async {
+    if (!_formKey.currentState.validate()) {
+      return null;
+    }
+
     var product = Product(
       id: null,
       barcode: widget.barcodeToAdd,
