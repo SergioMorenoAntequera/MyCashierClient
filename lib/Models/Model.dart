@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Model {
-  // Esto hjay que moverlo a model
+  // Get connection data
   static getHostConfig() async {
     var configPath = 'assets/config/HostConnection.json';
     String configContent = await rootBundle.loadString(configPath);
@@ -12,6 +12,7 @@ class Model {
     return (config);
   }
 
+  // Get Info from database thought params
   static Future<Map<String, dynamic>> fetchByParameters(
       table, parameter, value) async {
     dynamic config = await Model.getHostConfig();

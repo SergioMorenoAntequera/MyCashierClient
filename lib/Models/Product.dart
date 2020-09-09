@@ -20,13 +20,22 @@ class Product {
   }
 
   static Future<Product> fetchById(id) async {
-    var fetchedData = Model.fetchByParameters("products", "id", id);
+    var fetchedData = await Model.fetchByParameters("products", "id", id);
+    if (fetchedData != null) {
+      return Product.fromJson(fetchedData);
+    } else {
+      return null;
+    }
   }
 
   static Future<Product> fetchByBarcode(barcode) async {
     var fetchedData =
         await Model.fetchByParameters("products", "barcode", barcode);
-    return Product.fromJson(fetchedData);
+    if (fetchedData != null) {
+      return Product.fromJson(fetchedData);
+    } else {
+      return null;
+    }
   }
 
   static Future<Product> all() async {
