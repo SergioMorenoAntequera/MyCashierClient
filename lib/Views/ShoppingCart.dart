@@ -31,7 +31,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add_to_home_screen),
+        child: Icon(Icons.linked_camera),
         onPressed: () => {_startScanning()},
       ),
     );

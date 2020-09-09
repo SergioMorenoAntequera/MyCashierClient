@@ -4,7 +4,7 @@ import '../../Models/Product.dart';
 class AddProductDialog extends StatefulWidget {
   final BuildContext context;
   final String barcodeToAdd;
-  var trolley;
+  final trolley;
 
   AddProductDialog({this.context, this.barcodeToAdd, this.trolley});
 

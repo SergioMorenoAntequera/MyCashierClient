@@ -1,4 +1,4 @@
-import 'package:flutter/services.dart';
+import 'package:qrcode_test/Models/Model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -20,43 +20,13 @@ class Product {
   }
 
   static Future<Product> fetchById(id) async {
-    dynamic config = await getHostConfig();
-
-    final response = await http.get(config['host'] +
-        ":" +
-        config['port'] +
-        "/products/id/" +
-        id.toString());
-
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      var fetchedProduct = Product.fromJson(jsonData[0]);
-      return fetchedProduct;
-    } else {
-      throw Exception('Failed to load the product');
-    }
+    var fetchedData = Model.fetchByParameters("products", "id", id);
   }
 
   static Future<Product> fetchByBarcode(barcode) async {
-    dynamic config = await getHostConfig();
-
-    final response = await http.get(config['host'] +
-        ":" +
-        config['port'] +
-        "/products/barcode/" +
-        barcode.toString());
-
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      if (jsonData.length == 0) {
-        return null;
-      } else {
-        var fetchedProduct = Product.fromJson(jsonData[0]);
-        return fetchedProduct;
-      }
-    } else {
-      throw Exception('Failed to load the product');
-    }
+    var fetchedData =
+        await Model.fetchByParameters("products", "barcode", barcode);
+    return Product.fromJson(fetchedData);
   }
 
   static Future<Product> all() async {
@@ -94,12 +64,5 @@ class Product {
       // Todo bad
       throw Exception('Failed to load album');
     }
-  }
-
-  // Esto hjay que moverlo a model
-  static getHostConfig() async {
-    String host =
-        await rootBundle.loadString('assets/config/HostConnection.json');
-    return json.decode(host);
   }
 }
