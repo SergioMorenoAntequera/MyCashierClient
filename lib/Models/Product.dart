@@ -52,26 +52,28 @@ class Product {
   }
 
   Future<Product> create() async {
-    final response = await http.post(
-      'http://192.168.1.78:3001/products/create',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'id': this.id,
-        'barcode': this.barcode,
-        'name': this.name,
-        'price': this.price,
-      }),
-    );
+    var hostConfig = await Model.getHostConfig();
+    var url = 'http://' + hostConfig['host'] + ":" + hostConfig['port'];
 
-    if (response.statusCode == 201) {
+    final response = await http.post(url + '/products',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'id': this.id,
+          'barcode': this.barcode,
+          'name': this.name,
+          'price': this.price,
+        }));
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
       // Todo cool
       var jsonData = json.decode(response.body);
       var createdProduct = Product.fromJson(jsonData);
       return createdProduct;
     } else {
       // Todo bad
+      print(response.statusCode);
       throw Exception('Failed to load album');
     }
   }

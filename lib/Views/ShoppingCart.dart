@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrcode_test/Models/Bundle.dart';
 import 'package:qrcode_test/Widgets/ProductWidget.dart';
 import '../Widgets/Dialogs/AddProductDialog.dart' as dialogs;
 import 'package:qrscan/qrscan.dart' as scanner;
@@ -12,7 +13,8 @@ class ShoppingCart extends StatefulWidget {
   _ShoppingCartState createState() => _ShoppingCartState();
 }
 
-class _ShoppingCartState extends State<ShoppingCart> {
+class _ShoppingCartState extends State<ShoppingCart>
+    with SingleTickerProviderStateMixin {
   var _inTheTrolley = <Product>[];
 
   @override
@@ -45,7 +47,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   // Method to Scan codes
   Future _startScanning() async {
     // String barcode = await scanner.scan();
-    String barcode = "8410069017925";
+    String barcode = "841006901792257ssssssssss500";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
@@ -57,15 +59,21 @@ class _ShoppingCartState extends State<ShoppingCart> {
           return new dialogs.AddProductDialog(
             context: context,
             barcodeToAdd: barcode,
-            trolley: _inTheTrolley,
+            addToTrolley: addToTrolley,
           );
         },
       );
     } else {
       // Logic to show the product with this barcode
-      setState(() {
-        _inTheTrolley.add(fetchedProduct);
-      });
+      // Create new Bundle with the product
+      // var newNundle =
+      addToTrolley(fetchedProduct);
     }
+  }
+
+  addToTrolley(newProduct) {
+    setState(() {
+      _inTheTrolley.add(newProduct);
+    });
   }
 }

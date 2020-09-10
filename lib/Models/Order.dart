@@ -5,5 +5,4 @@ class Order {
   int userId;
   double totalPrice;
   List<Product> proroducts;
-  DateTime date;
 }

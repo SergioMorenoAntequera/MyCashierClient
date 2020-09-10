@@ -4,9 +4,9 @@ import '../../Models/Product.dart';
 class AddProductDialog extends StatefulWidget {
   final BuildContext context;
   final String barcodeToAdd;
-  final trolley;
+  final Function addToTrolley;
 
-  AddProductDialog({this.context, this.barcodeToAdd, this.trolley});
+  AddProductDialog({this.context, this.barcodeToAdd, this.addToTrolley});
 
   @override
   _AddProductDialogState createState() => _AddProductDialogState();
@@ -95,11 +95,8 @@ class _AddProductDialogState extends State<AddProductDialog> {
       name: newProductNameController.text,
       price: double.parse(newProductPriceController.text),
     );
-    newProduct.create();
-
-    setState(() {
-      widget.trolley.add(newProduct);
-    });
+    newProduct = await newProduct.create();
+    widget.addToTrolley(newProduct);
 
     Navigator.pop(context);
   }

@@ -17,7 +17,11 @@ class Model {
       table, parameter, value) async {
     dynamic config = await Model.getHostConfig();
     String url = "http://" + config['host'] + ":" + config['port'];
-    url += "/" + table + "/" + parameter + "/" + value;
+    if (parameter == "id") {
+      url += "/" + table + "/" + value.toString();
+    } else {
+      url += "/" + table + "/" + parameter + "/" + value.toString();
+    }
 
     final response = await http.get(url);
 
