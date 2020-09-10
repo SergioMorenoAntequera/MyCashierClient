@@ -32,4 +32,18 @@ class Model {
       throw Exception('Error 500');
     }
   }
+
+  static Future<List> all(table) async {
+    dynamic config = await Model.getHostConfig();
+    String url = "http://" + config['host'] + ":" + config['port'];
+    url += "/" + table;
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      return jsonData;
+    } else {
+      throw Exception('Failed to load the product');
+    }
+  }
 }

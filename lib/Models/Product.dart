@@ -8,6 +8,8 @@ class Product {
   String name;
   double price;
 
+  ////////////////////////////////////////////////////////////////////////////
+  // CONSTRUCTORS ////////////////////////////////////////////////////////////
   Product({this.id, this.barcode, this.name, this.price});
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,8 @@ class Product {
     );
   }
 
+  ////////////////////////////////////////////////////////////////////////////
+  // METHODS /////////////////////////////////////////////////////////////////
   static Future<Product> fetchById(id) async {
     var fetchedData = await Model.fetchByParameters("products", "id", id);
     if (fetchedData != null) {
@@ -38,16 +42,13 @@ class Product {
     }
   }
 
-  static Future<Product> all() async {
-    final response = await http.get('http://192.168.1.78:3001/products');
-
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      var fetchedProduct = Product.fromJson(jsonData[0]);
-      return fetchedProduct;
-    } else {
-      throw Exception('Failed to load the product');
-    }
+  static Future<List<dynamic>> all() async {
+    var fetchedData = await Model.all("products");
+    List<dynamic> productList = [];
+    fetchedData.forEach((element) {
+      productList.add(new Product.fromJson(element));
+    });
+    return productList;
   }
 
   Future<Product> create() async {
