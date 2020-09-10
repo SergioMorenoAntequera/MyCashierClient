@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
-import 'package:qrcode_test/Widgets/ProductWidget.dart';
+import 'package:qrcode_test/Widgets/BundleWidget.dart';
 import '../Widgets/Dialogs/AddProductDialog.dart' as dialogs;
 import 'package:qrscan/qrscan.dart' as scanner;
 
@@ -13,9 +13,9 @@ class ShoppingCart extends StatefulWidget {
   _ShoppingCartState createState() => _ShoppingCartState();
 }
 
-class _ShoppingCartState extends State<ShoppingCart>
-    with SingleTickerProviderStateMixin {
-  var _inTheTrolley = <Product>[];
+class _ShoppingCartState extends State<ShoppingCart> {
+  var _inTheTrolley = <Bundle>[];
+  var _totalPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,9 @@ class _ShoppingCartState extends State<ShoppingCart>
       body: ListView.builder(
         itemCount: _inTheTrolley.length,
         itemBuilder: (context, index) {
-          final product = _inTheTrolley[index];
-          return ProductWidget(
-            productShowing: product,
+          final bundle = _inTheTrolley[index];
+          return new BundleWidget(
+            bundleShowing: bundle,
           );
         },
       ),
@@ -47,7 +47,7 @@ class _ShoppingCartState extends State<ShoppingCart>
   // Method to Scan codes
   Future _startScanning() async {
     // String barcode = await scanner.scan();
-    String barcode = "841006901792257ssssssssss500";
+    String barcode = "11111";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
@@ -66,14 +66,14 @@ class _ShoppingCartState extends State<ShoppingCart>
     } else {
       // Logic to show the product with this barcode
       // Create new Bundle with the product
-      // var newNundle =
-      addToTrolley(fetchedProduct);
+      var newBundle = new Bundle(product: fetchedProduct, amount: 1);
+      addToTrolley(newBundle);
     }
   }
 
-  addToTrolley(newProduct) {
+  addToTrolley(newBundle) {
     setState(() {
-      _inTheTrolley.add(newProduct);
+      _inTheTrolley.add(newBundle);
     });
   }
 }
