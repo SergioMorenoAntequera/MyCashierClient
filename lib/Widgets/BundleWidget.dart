@@ -23,81 +23,85 @@ class _BundleWidgetState extends State<BundleWidget> {
     return ListTile(
       contentPadding: EdgeInsets.all(5),
       // Delete icon
-      leading: IconButton(
-        onPressed: () => {},
-        icon: Icon(
-          Icons.delete,
-          size: 50,
+      leading: Padding(
+        padding: const EdgeInsets.only(top: 5, left: 10),
+        child: IconButton(
+          padding: EdgeInsets.all(0),
+          onPressed: () => {},
+          icon: Icon(
+            Icons.delete,
+            size: 50,
+          ),
         ),
       ),
       //Content in the middle and Right
-      title: Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // MIDDLE
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Name of product
-                Padding(
-                  padding: EdgeInsets.only(left: 11),
-                  child: Text(
-                    "${product.name}",
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // MIDDLE
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Name of product
+              Padding(
+                padding: EdgeInsets.only(left: 7),
+                child: Text(
+                  "${product.name}",
+                  style: Theme.of(context).textTheme.headline3,
                 ),
-                // Restar, sumar, cantidad
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.remove_circle),
-                      color: Theme.of(context).cursorColor,
-                      iconSize: 40,
-                      onPressed: () => {
-                        setState(() {
-                          if (bundle.amount > 0) {
-                            bundle.amount--;
-                          } else {
-                            // Show modal to confirm delete item
-                          }
-                        })
-                      },
-                    ),
-                    Text(
-                      "${bundle.amount}",
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.add_circle),
-                      color: Theme.of(context).cursorColor,
-                      iconSize: 40,
-                      onPressed: () => {
-                        setState(() {
-                          bundle.amount++;
-                        })
-                      },
-                    )
-                  ],
-                )
-              ],
-            ),
-            // RIGHT
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              // Restar, sumar, cantidad
+              Row(
                 children: [
+                  IconButton(
+                    padding: EdgeInsets.all(0),
+                    icon: Icon(Icons.remove_circle),
+                    color: Theme.of(context).cursorColor,
+                    iconSize: 40,
+                    onPressed: () => {
+                      setState(() {
+                        if (bundle.amount > 0) {
+                          bundle.amount--;
+                        } else {
+                          // Show modal to confirm delete item
+                        }
+                      })
+                    },
+                  ),
                   Text(
-                    "${(product.price * bundle.amount).toStringAsFixed(2)}€",
+                    "${bundle.amount}",
                     style: Theme.of(context).textTheme.headline2,
                   ),
-                  Text("${product.price.toStringAsFixed(2)}"),
+                  IconButton(
+                    padding: EdgeInsets.all(0),
+                    icon: Icon(Icons.add_circle),
+                    color: Theme.of(context).cursorColor,
+                    iconSize: 40,
+                    onPressed: () => {
+                      setState(() {
+                        bundle.amount++;
+                      })
+                    },
+                  )
                 ],
-              ),
+              )
+            ],
+          ),
+          // RIGHT
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${(product.price * bundle.amount).toStringAsFixed(2)}€",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                Text("${product.price.toStringAsFixed(2)}"),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
