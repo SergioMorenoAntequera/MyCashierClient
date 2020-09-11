@@ -39,68 +39,76 @@ class _BundleWidgetState extends State<BundleWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // MIDDLE
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Name of product
-              Padding(
-                padding: EdgeInsets.only(left: 7),
-                child: Text(
-                  "${product.name}",
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-              ),
-              // Restar, sumar, cantidad
-              Row(
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.all(0),
-                    icon: Icon(Icons.remove_circle),
-                    color: Theme.of(context).cursorColor,
-                    iconSize: 40,
-                    onPressed: () => {
-                      setState(() {
-                        if (bundle.amount > 0) {
-                          bundle.amount--;
-                        } else {
-                          // Show modal to confirm delete item
-                        }
-                      })
-                    },
-                  ),
-                  Text(
-                    "${bundle.amount}",
-                    style: Theme.of(context).textTheme.headline2,
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.all(0),
-                    icon: Icon(Icons.add_circle),
-                    color: Theme.of(context).cursorColor,
-                    iconSize: 40,
-                    onPressed: () => {
-                      setState(() {
-                        bundle.amount++;
-                      })
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
-          // RIGHT
-          Padding(
-            padding: EdgeInsets.only(right: 20),
+          Flexible(
+            flex: 9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "${(product.price * bundle.amount).toStringAsFixed(2)}€",
-                  style: Theme.of(context).textTheme.headline2,
+                // Name of product
+                Padding(
+                  padding: EdgeInsets.only(left: 7),
+                  child: Text(
+                    "${product.name}",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
                 ),
-                Text("${product.price.toStringAsFixed(2)}"),
+                // Restar, sumar, cantidad
+                Row(
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.all(0),
+                      icon: Icon(Icons.remove_circle),
+                      color: Theme.of(context).cursorColor,
+                      iconSize: 40,
+                      onPressed: () => {
+                        setState(() {
+                          if (bundle.amount > 0) {
+                            bundle.amount--;
+                          } else {
+                            // Show modal to confirm delete item
+                          }
+                        })
+                      },
+                    ),
+                    Text(
+                      "${bundle.amount}",
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    IconButton(
+                      padding: EdgeInsets.all(0),
+                      icon: Icon(Icons.add_circle),
+                      color: Theme.of(context).cursorColor,
+                      iconSize: 40,
+                      onPressed: () => {
+                        setState(() {
+                          bundle.amount++;
+                        })
+                      },
+                    )
+                  ],
+                )
               ],
             ),
           ),
+          // RIGHT
+          Flexible(
+            flex: 7,
+            child: Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${(product.price * bundle.amount).toStringAsFixed(2)}€",
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                  Text("${product.price.toStringAsFixed(2)}€"),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
