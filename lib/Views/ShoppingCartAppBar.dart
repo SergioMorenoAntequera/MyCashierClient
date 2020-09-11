@@ -36,8 +36,9 @@ class MyCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Row(children: [
                 Expanded(
                   child: Container(
+                    padding: EdgeInsets.only(left: 10),
                     child: Text(
-                      "$totalPrice€",
+                      "${totalPrice.toStringAsFixed(2)}€",
                       style: Theme.of(context).textTheme.headline1,
                     ),
                   ),
