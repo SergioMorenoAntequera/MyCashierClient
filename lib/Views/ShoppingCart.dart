@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
+import 'package:qrcode_test/Views/ShoppingCartAppBar.dart';
 import 'package:qrcode_test/Widgets/BundleWidget.dart';
 import '../Widgets/Dialogs/AddProductDialog.dart' as dialogs;
 import 'package:qrscan/qrscan.dart' as scanner;
@@ -15,13 +16,14 @@ class ShoppingCart extends StatefulWidget {
 
 class _ShoppingCartState extends State<ShoppingCart> {
   var _inTheTrolley = <Bundle>[];
-  var _totalPrice;
+  double _totalPrice = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("My shopping cart"),
+      appBar: MyCustomAppBar(
+        totalPrice: _totalPrice,
+        height: 90,
       ),
       body: ListView.builder(
         itemCount: _inTheTrolley.length,
@@ -71,9 +73,10 @@ class _ShoppingCartState extends State<ShoppingCart> {
     }
   }
 
-  addToTrolley(newBundle) {
+  addToTrolley(Bundle newBundle) {
     setState(() {
       _inTheTrolley.add(newBundle);
+      _totalPrice += newBundle.product.price;
     });
   }
 }
