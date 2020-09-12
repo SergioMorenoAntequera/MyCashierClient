@@ -31,6 +31,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
           final bundle = _inTheTrolley[index];
           return new BundleWidget(
             bundleShowing: bundle,
+            addToTotal: addToTotal,
           );
         },
       ),
@@ -77,6 +78,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
     setState(() {
       _inTheTrolley.add(newBundle);
       _totalPrice += newBundle.product.price;
+    });
+  }
+
+  addToTotal(double priceToAdd) {
+    setState(() {
+      this._totalPrice += priceToAdd;
     });
   }
 }
