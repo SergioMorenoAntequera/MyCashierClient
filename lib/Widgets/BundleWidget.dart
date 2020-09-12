@@ -105,7 +105,7 @@ class _BundleWidgetState extends State<BundleWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${(product.price * bundle.amount).toStringAsFixed(2)}€",
+                    "${(product.price * bundle.amount).toStringAsFixed(2).length < 6 ? (product.price * bundle.amount).toStringAsFixed(2) : (product.price * bundle.amount).toStringAsFixed(1)}€",
                     style: Theme.of(context).textTheme.headline2,
                   ),
                   Text("${product.price.toStringAsFixed(2)}€"),

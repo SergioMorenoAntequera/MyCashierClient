@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../Models/Bundle.dart';
 import '../../Models/Product.dart';
 
 class AddProductDialog extends StatefulWidget {
@@ -18,7 +19,6 @@ class _AddProductDialogState extends State<AddProductDialog> {
   @override
   Widget build(BuildContext context) {
     return new AlertDialog(
-      // title: Text(":("),
       content: Form(
         key: _formKey,
         child: Column(
@@ -96,7 +96,8 @@ class _AddProductDialogState extends State<AddProductDialog> {
       price: double.parse(newProductPriceController.text),
     );
     newProduct = await newProduct.create();
-    widget.addToTrolley(newProduct);
+    Bundle newBundle = new Bundle(product: newProduct, amount: 1);
+    widget.addToTrolley(newBundle);
 
     Navigator.pop(context);
   }
