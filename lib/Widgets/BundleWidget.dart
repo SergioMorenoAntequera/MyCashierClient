@@ -4,12 +4,12 @@ import 'package:qrcode_test/Models/Bundle.dart';
 class BundleWidget extends StatefulWidget {
   final Bundle bundleShowing;
   final Key key;
-  final Function addToTotal;
+  final Function changeTotal;
 
   const BundleWidget({
     this.key,
     @required this.bundleShowing,
-    @required this.addToTotal,
+    @required this.changeTotal,
   }) : super(key: key);
 
   @override
@@ -67,7 +67,7 @@ class _BundleWidgetState extends State<BundleWidget> {
                       onPressed: () => {
                         setState(() {
                           if (bundle.amount > 0) {
-                            widget.addToTotal(-product.price);
+                            widget.changeTotal(-product.price);
                             bundle.amount--;
                           } else {
                             // Show modal to confirm delete item
@@ -86,7 +86,7 @@ class _BundleWidgetState extends State<BundleWidget> {
                       iconSize: 40,
                       onPressed: () => {
                         setState(() {
-                          widget.addToTotal(product.price);
+                          widget.changeTotal(product.price);
                           bundle.amount++;
                         })
                       },

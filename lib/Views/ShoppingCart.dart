@@ -31,7 +31,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
           final bundle = _inTheTrolley[index];
           return new BundleWidget(
             bundleShowing: bundle,
-            addToTotal: addToTotal,
+            changeTotal: changeTotal,
           );
         },
       ),
@@ -50,7 +50,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   // Method to Scan codes
   Future _startScanning() async {
     // String barcode = await scanner.scan();
-    String barcode = "8412779230601";
+    String barcode = "11111";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
@@ -68,9 +68,24 @@ class _ShoppingCartState extends State<ShoppingCart> {
       );
     } else {
       // Logic to show the product with this barcode
+      //Check if it's already inside
+      var foundInTrolley = false;
+      _inTheTrolley.forEach((bundle) {
+        if (bundle.product.barcode == barcode) {
+          foundInTrolley = true;
+          setState(() {
+            bundle.amount++;
+            _totalPrice += bundle.product.price;
+          });
+          return null;
+        }
+      });
+
       // Create new Bundle with the product
-      var newBundle = new Bundle(product: fetchedProduct, amount: 1);
-      addToTrolley(newBundle);
+      if (!foundInTrolley) {
+        var newBundle = new Bundle(product: fetchedProduct, amount: 1);
+        addToTrolley(newBundle);
+      }
     }
   }
 
@@ -81,9 +96,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
   }
 
-  addToTotal(double priceToAdd) {
+  changeTotal(double price) {
     setState(() {
-      this._totalPrice += priceToAdd;
+      this._totalPrice += price;
     });
   }
 }
