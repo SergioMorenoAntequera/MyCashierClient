@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
+import 'package:qrcode_test/Models/Cart.dart';
 
 class BundleWidget extends StatefulWidget {
   final Bundle bundleShowing;
+  final Cart cart;
   final Key key;
-  final Function changeTotal;
 
   const BundleWidget({
     this.key,
     @required this.bundleShowing,
-    @required this.changeTotal,
+    @required this.cart,
   }) : super(key: key);
 
   @override
@@ -67,8 +68,8 @@ class _BundleWidgetState extends State<BundleWidget> {
                       onPressed: () => {
                         setState(() {
                           if (bundle.amount > 0) {
-                            widget.changeTotal(-product.price);
                             bundle.amount--;
+                            widget.cart.overrideBundle(bundle);
                           } else {
                             // Show modal to confirm delete item
                           }
@@ -86,8 +87,8 @@ class _BundleWidgetState extends State<BundleWidget> {
                       iconSize: 40,
                       onPressed: () => {
                         setState(() {
-                          widget.changeTotal(product.price);
                           bundle.amount++;
+                          widget.cart.overrideBundle(bundle);
                         })
                       },
                     )

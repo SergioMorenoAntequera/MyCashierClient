@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
+import 'package:qrcode_test/Models/Cart.dart';
 import 'package:qrcode_test/Views/ShoppingCart/ShoppingCartAppBar.dart';
 import 'package:qrcode_test/Widgets/BundleWidget.dart';
 import '../../Widgets/Dialogs/AddProductDialog.dart' as dialogs;
@@ -15,6 +16,7 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
+  Cart myCart = new Cart(bundles: <Bundle>[]);
   var _inTheTrolley = <Bundle>[];
   double _totalPrice = 0;
 
@@ -22,21 +24,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ShoppingCartAppBar(
-        totalPrice: _totalPrice,
-        inTheTrolley: _inTheTrolley,
+        cart: myCart,
         height: 90,
       ),
-      body: _inTheTrolley.isEmpty
+      body: myCart.bundles.isEmpty
           // Warning add something
           ? buildEmptyCartWarning()
           // Show the list
           : ListView.builder(
-              itemCount: _inTheTrolley.length,
+              itemCount: myCart.bundles.length,
               itemBuilder: (context, index) {
-                final bundle = _inTheTrolley[index];
+                final bundle = myCart.bundles[index];
                 return BundleWidget(
                   bundleShowing: bundle,
-                  changeTotal: changeTotal,
+                  cart: myCart,
                 );
               },
             ),
@@ -91,8 +92,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
+    // LOOKING IF WE HAVE THE PRODUCT
     if (fetchedProduct == null) {
-      // No product found, adding new one
+      // WE DONT, adding new one
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -104,24 +106,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
         },
       );
     } else {
+      // WE DO
       // Logic to show the product with this barcode
       //Check if it's already inside
-      var foundInTrolley = false;
-      _inTheTrolley.forEach((bundle) {
-        if (bundle.product.barcode == barcode) {
-          foundInTrolley = true;
-          setState(() {
-            bundle.amount++;
-            _totalPrice += bundle.product.price;
-          });
-          return null;
-        }
-      });
-
-      // Create new Bundle with the product
-      if (!foundInTrolley) {
+      var bundleFound = myCart.findByBarcode(barcode);
+      if (bundleFound != null) {
+        setState(() {
+          bundleFound.amount++;
+          myCart.overrideBundle(bundleFound);
+        });
+      } else {
         var newBundle = new Bundle(product: fetchedProduct, amount: 1);
-        addToTrolley(newBundle);
+        setState(() {
+          myCart.addBundle(newBundle);
+        });
       }
     }
   }
@@ -129,7 +127,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
   addToTrolley(Bundle newBundle) {
     setState(() {
       _inTheTrolley.add(newBundle);
-      _totalPrice += newBundle.product.price;
     });
   }
 

@@ -2,8 +2,6 @@ import 'package:qrcode_test/Models/Model.dart';
 
 import 'Order.dart';
 import 'Product.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
 
 class Bundle {
   int id;

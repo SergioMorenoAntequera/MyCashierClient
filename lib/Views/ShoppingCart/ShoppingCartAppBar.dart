@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
+import 'package:qrcode_test/Models/Cart.dart';
 import '../../Widgets/Dialogs/FinishShoppingDialog.dart' as dialogs;
 
 class ShoppingCartAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   final double height;
-  final double totalPrice;
-  final List<Bundle> inTheTrolley;
+  final Cart cart;
 
   const ShoppingCartAppBar({
     Key key,
     @required this.height,
-    @required this.totalPrice,
-    this.inTheTrolley,
+    @required this.cart,
   }) : super(key: key);
 
   @override
@@ -46,7 +45,7 @@ class ShoppingCartAppBar extends StatelessWidget
                     child: Container(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
-                        "${totalPrice.toStringAsFixed(2)}€",
+                        "${cart.getTotalPrice().toStringAsFixed(2)}€",
                         style: Theme.of(context).textTheme.headline1,
                       ),
                     ),
