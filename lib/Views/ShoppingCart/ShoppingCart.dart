@@ -27,35 +27,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       ),
       body: _inTheTrolley.isEmpty
           // Warning add something
-          ? Center(
-              child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 150),
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: new Column(
-                    children: <Widget>[
-                      Text(
-                        "Tu carrito está vacio",
-                        style: Theme.of(context).textTheme.subtitle1,
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        "Escanea un código de barras para meter un producto!",
-                        style: Theme.of(context).textTheme.subtitle2,
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 100),
-                  child: Image.asset("assets/images/arrowToScan.png"),
-                ),
-              ],
-            ))
+          ? buildEmptyCartWarning()
           // Show the list
           : ListView.builder(
               itemCount: _inTheTrolley.length,
@@ -70,6 +42,39 @@ class _ShoppingCartState extends State<ShoppingCart> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.linked_camera),
         onPressed: _startScanning,
+      ),
+    );
+  }
+
+  buildEmptyCartWarning() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 150),
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: new Column(
+              children: <Widget>[
+                Text(
+                  "Tu carrito está vacio",
+                  style: Theme.of(context).textTheme.subtitle1,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "Escanea un código de barras para meter un producto!",
+                  style: Theme.of(context).textTheme.subtitle2,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 100),
+            child: Image.asset("assets/images/arrowToScan.png"),
+          ),
+        ],
       ),
     );
   }
