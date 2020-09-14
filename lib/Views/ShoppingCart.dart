@@ -21,20 +21,50 @@ class _ShoppingCartState extends State<ShoppingCart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyCustomAppBar(
+      appBar: ShoppingCartAppBar(
         totalPrice: _totalPrice,
         height: 90,
       ),
-      body: ListView.builder(
-        itemCount: _inTheTrolley.length,
-        itemBuilder: (context, index) {
-          final bundle = _inTheTrolley[index];
-          return BundleWidget(
-            bundleShowing: bundle,
-            changeTotal: changeTotal,
-          );
-        },
-      ),
+      body: _inTheTrolley.isEmpty
+          ? Center(
+              child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 200),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: new Column(
+                    children: <Widget>[
+                      Text(
+                        "Tu carrito está vacio",
+                        style: Theme.of(context).textTheme.subtitle1,
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        "Añade algo con el escaner de barras!",
+                        style: Theme.of(context).textTheme.subtitle2,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 100),
+                  child: Image.asset("assets/images/arrowToScan.png"),
+                ),
+              ],
+            ))
+          : ListView.builder(
+              itemCount: _inTheTrolley.length,
+              itemBuilder: (context, index) {
+                final bundle = _inTheTrolley[index];
+                return BundleWidget(
+                  bundleShowing: bundle,
+                  changeTotal: changeTotal,
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.linked_camera),
         onPressed: () => {_startScanning()},
@@ -45,7 +75,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
   /////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////
   /// AUX METHODS /////////////////////////////////////////////////////////
-  ///
 
   // Method to Scan codes
   Future _startScanning() async {

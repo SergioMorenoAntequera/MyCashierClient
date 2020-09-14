@@ -20,6 +20,16 @@ ThemeData buildDefaultTheme() {
       color: Colors.black,
       fontWeight: FontWeight.bold,
     ),
+
+    // Background
+    subtitle1: TextStyle(
+      color: Colors.black54,
+      fontSize: 35,
+    ),
+    subtitle2: TextStyle(
+      color: Colors.black54,
+      fontSize: 20,
+    ),
   );
 
   // Add app themes rules here like so:

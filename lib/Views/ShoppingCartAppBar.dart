@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MyCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class ShoppingCartAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final double totalPrice;
 
-  const MyCustomAppBar({
+  const ShoppingCartAppBar({
     Key key,
     @required this.height,
     @required this.totalPrice,
