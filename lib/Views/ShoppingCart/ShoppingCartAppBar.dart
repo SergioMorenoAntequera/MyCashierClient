@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:qrcode_test/Models/Bundle.dart';
+import '../../Widgets/Dialogs/FinishShoppingDialog.dart' as dialogs;
 
-class ShoppingCartAppBar extends StatelessWidget implements PreferredSizeWidget {
+class ShoppingCartAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   final double height;
   final double totalPrice;
+  final List<Bundle> inTheTrolley;
 
   const ShoppingCartAppBar({
     Key key,
     @required this.height,
     @required this.totalPrice,
+    this.inTheTrolley,
   }) : super(key: key);
 
   @override
@@ -33,17 +38,42 @@ class ShoppingCartAppBar extends StatelessWidget implements PreferredSizeWidget 
                 ],
               ),
               padding: EdgeInsets.all(10),
-              child: Row(children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      "${totalPrice.toStringAsFixed(2)}€",
-                      style: Theme.of(context).textTheme.headline1,
+              // MAIN ROW
+              child: Row(
+                children: [
+                  // TOTAL PRICE
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(
+                        "${totalPrice.toStringAsFixed(2)}€",
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
                     ),
                   ),
-                ),
-              ]),
+                  // Finish shopping Button
+                  Container(
+                    width: 100,
+                    margin: EdgeInsets.only(right: 10),
+                    child: RaisedButton(
+                      padding: EdgeInsets.only(
+                          top: 8, bottom: 8, left: 15, right: 15),
+                      color: Colors.black,
+                      child: Text(
+                        "Terminar compra",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+                      onPressed: () => {
+                        _finishShopping(context),
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -53,4 +83,15 @@ class ShoppingCartAppBar extends StatelessWidget implements PreferredSizeWidget 
 
   @override
   Size get preferredSize => Size.fromHeight(height);
+
+  _finishShopping(context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return dialogs.FinishShoppingDialog(
+          context: context,
+        );
+      },
+    );
+  }
 }

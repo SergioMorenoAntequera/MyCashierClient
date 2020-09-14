@@ -23,6 +23,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     return Scaffold(
       appBar: ShoppingCartAppBar(
         totalPrice: _totalPrice,
+        inTheTrolley: _inTheTrolley,
         height: 90,
       ),
       body: _inTheTrolley.isEmpty
