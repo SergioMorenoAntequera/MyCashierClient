@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'themes.dart';
-
-import 'Views/ShoppingCart.dart';
+import 'Views/Controller.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'My cashier',
       theme: defaultTheme,
-      home: ShoppingCart(),
+      home: Controller(),
     );
   }
 }

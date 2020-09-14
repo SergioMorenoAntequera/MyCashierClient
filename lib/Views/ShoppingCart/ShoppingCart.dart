@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
-import 'package:qrcode_test/Views/ShoppingCartAppBar.dart';
+import 'package:qrcode_test/Views/ShoppingCart/ShoppingCartAppBar.dart';
 import 'package:qrcode_test/Widgets/BundleWidget.dart';
-import '../Widgets/Dialogs/AddProductDialog.dart' as dialogs;
+import '../../Widgets/Dialogs/AddProductDialog.dart' as dialogs;
 import 'package:qrscan/qrscan.dart' as scanner;
 
-import '../Models/Product.dart';
+import '../../Models/Product.dart';
 
 class ShoppingCart extends StatefulWidget {
   ShoppingCart({Key key}) : super(key: key);
@@ -26,11 +26,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
         height: 90,
       ),
       body: _inTheTrolley.isEmpty
+          // Warning add something
           ? Center(
               child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 200),
+                SizedBox(height: 150),
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   width: MediaQuery.of(context).size.width * 0.9,
@@ -42,7 +43,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        "Añade algo con el escaner de barras!",
+                        "Escanea un código de barras para meter un producto!",
                         style: Theme.of(context).textTheme.subtitle2,
                         textAlign: TextAlign.center,
                       ),
@@ -55,6 +56,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ),
               ],
             ))
+          // Show the list
           : ListView.builder(
               itemCount: _inTheTrolley.length,
               itemBuilder: (context, index) {
@@ -67,7 +69,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
             ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.linked_camera),
-        onPressed: () => {_startScanning()},
+        onPressed: _startScanning,
       ),
     );
   }
