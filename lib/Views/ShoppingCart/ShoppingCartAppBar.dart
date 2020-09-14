@@ -54,7 +54,7 @@ class _ShoppingCartAppBarState extends State<ShoppingCartAppBar> {
                         builder: (context, cart, child) {
                           var value = cart.getTotalPrice().toStringAsFixed(2);
                           return Text(
-                            "$value",
+                            "$value€",
                             style: Theme.of(context).textTheme.headline1,
                           );
                         },

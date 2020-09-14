@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
 import 'package:qrcode_test/Models/Cart.dart';
 import 'package:qrcode_test/Views/ShoppingCart/ShoppingCartAppBar.dart';
@@ -22,21 +23,22 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   @override
   Widget build(BuildContext context) {
+    var myCartAux = Provider.of<Cart>(context, listen: true);
+
     return Scaffold(
       appBar: ShoppingCartAppBar(
         height: 90,
       ),
-      body: myCart.bundles.isEmpty
+      body: myCartAux.bundles.isEmpty
           // Warning add something
           ? buildEmptyCartWarning()
           // Show the list
           : ListView.builder(
-              itemCount: myCart.bundles.length,
+              itemCount: myCartAux.bundles.length,
               itemBuilder: (context, index) {
-                final bundle = myCart.bundles[index];
+                final bundle = myCartAux.bundles[index];
                 return BundleWidget(
                   bundleShowing: bundle,
-                  cart: myCart,
                 );
               },
             ),
@@ -109,17 +111,14 @@ class _ShoppingCartState extends State<ShoppingCart> {
       // WE DO
       // Logic to show the product with this barcode
       //Check if it's already inside
-      var bundleFound = myCart.findByBarcode(barcode);
+      var myCartAux = Provider.of<Cart>(context, listen: false);
+      var bundleFound = myCartAux.findByBarcode(barcode);
       if (bundleFound != null) {
-        setState(() {
-          bundleFound.amount++;
-          myCart.overrideBundle(bundleFound);
-        });
+        bundleFound.amount++;
+        myCartAux.overrideBundle(bundleFound);
       } else {
         var newBundle = new Bundle(product: fetchedProduct, amount: 1);
-        setState(() {
-          myCart.addBundle(newBundle);
-        });
+        myCartAux.addBundle(newBundle);
       }
     }
   }

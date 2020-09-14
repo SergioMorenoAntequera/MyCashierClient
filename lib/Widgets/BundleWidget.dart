@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
 import 'package:qrcode_test/Models/Cart.dart';
 
 class BundleWidget extends StatefulWidget {
   final Bundle bundleShowing;
-  final Cart cart;
   final Key key;
 
   const BundleWidget({
     this.key,
     @required this.bundleShowing,
-    @required this.cart,
   }) : super(key: key);
 
   @override
@@ -60,6 +59,7 @@ class _BundleWidgetState extends State<BundleWidget> {
                 // Restar, sumar, cantidad
                 Row(
                   children: [
+                    // REMOVE
                     IconButton(
                       padding: EdgeInsets.all(0),
                       icon: Icon(Icons.remove_circle),
@@ -69,7 +69,8 @@ class _BundleWidgetState extends State<BundleWidget> {
                         setState(() {
                           if (bundle.amount > 0) {
                             bundle.amount--;
-                            widget.cart.overrideBundle(bundle);
+                            Provider.of<Cart>(context, listen: false)
+                                .overrideBundle(bundle);
                           } else {
                             // Show modal to confirm delete item
                           }
@@ -80,6 +81,7 @@ class _BundleWidgetState extends State<BundleWidget> {
                       "${bundle.amount}",
                       style: Theme.of(context).textTheme.headline2,
                     ),
+                    // ADD
                     IconButton(
                       padding: EdgeInsets.all(0),
                       icon: Icon(Icons.add_circle),
@@ -88,8 +90,8 @@ class _BundleWidgetState extends State<BundleWidget> {
                       onPressed: () => {
                         setState(() {
                           bundle.amount++;
-                          widget.cart.overrideBundle(bundle);
-                          print(widget.cart.getTotalPrice());
+                          Provider.of<Cart>(context, listen: false)
+                              .overrideBundle(bundle);
                         })
                       },
                     )
