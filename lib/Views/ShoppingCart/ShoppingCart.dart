@@ -24,7 +24,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ShoppingCartAppBar(
-        cart: myCart,
         height: 90,
       ),
       body: myCart.bundles.isEmpty
@@ -88,7 +87,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
   // Method to Scan codes
   Future _startScanning() async {
     // String barcode = await scanner.scan();
-    String barcode = "8412779230601";
+    // String barcode = "8412779230601";
+    String barcode = "11111";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 

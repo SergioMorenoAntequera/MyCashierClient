@@ -89,6 +89,7 @@ class _BundleWidgetState extends State<BundleWidget> {
                         setState(() {
                           bundle.amount++;
                           widget.cart.overrideBundle(bundle);
+                          print(widget.cart.getTotalPrice());
                         })
                       },
                     )

@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
+
 import 'Bundle.dart';
 
-class Cart {
+class Cart extends ChangeNotifier {
   List<Bundle> bundles;
 
   Cart({this.bundles});
@@ -12,7 +14,6 @@ class Cart {
         totalPrice += bundle.product.price * bundle.amount;
       });
     }
-
     return totalPrice;
   }
 
@@ -23,6 +24,7 @@ class Cart {
     } else {
       bundles.add(bundleToAdd);
     }
+    notifyListeners();
   }
 
   findBundle(Bundle bundleToFind) {
@@ -53,6 +55,7 @@ class Cart {
     } else {
       return null;
     }
+    notifyListeners();
   }
 
   overrideBundle(Bundle bundleToOverride) {
@@ -62,6 +65,7 @@ class Cart {
         bundles[i] = bundleToOverride;
       }
     }
+    notifyListeners();
     return null;
   }
 

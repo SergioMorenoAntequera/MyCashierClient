@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
 import 'package:qrcode_test/Models/Cart.dart';
 import '../../Widgets/Dialogs/FinishShoppingDialog.dart' as dialogs;
 
-class ShoppingCartAppBar extends StatelessWidget
-    implements PreferredSizeWidget {
+class ShoppingCartAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double height;
-  final Cart cart;
 
   const ShoppingCartAppBar({
     Key key,
     @required this.height,
-    @required this.cart,
   }) : super(key: key);
 
+  @override
+  _ShoppingCartAppBarState createState() => _ShoppingCartAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(height);
+}
+
+class _ShoppingCartAppBarState extends State<ShoppingCartAppBar> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,9 +50,14 @@ class ShoppingCartAppBar extends StatelessWidget
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.only(left: 10),
-                      child: Text(
-                        "${cart.getTotalPrice().toStringAsFixed(2)}€",
-                        style: Theme.of(context).textTheme.headline1,
+                      child: Consumer<Cart>(
+                        builder: (context, cart, child) {
+                          var value = cart.getTotalPrice().toStringAsFixed(2);
+                          return Text(
+                            "$value",
+                            style: Theme.of(context).textTheme.headline1,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -67,7 +78,7 @@ class ShoppingCartAppBar extends StatelessWidget
                         ),
                       ),
                       onPressed: () => {
-                        _finishShopping(context),
+                        // _finishShopping(context),
                       },
                     ),
                   )
@@ -79,9 +90,6 @@ class ShoppingCartAppBar extends StatelessWidget
       ],
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(height);
 
   _finishShopping(context) {
     showDialog(
