@@ -71,6 +71,4 @@ class Cart extends ChangeNotifier {
     notifyListeners();
     return null;
   }
-
-  // OTHER
 }

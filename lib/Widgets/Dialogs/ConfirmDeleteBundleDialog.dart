@@ -61,8 +61,7 @@ class _ConfirmDeleteBundleDialogState extends State<ConfirmDeleteBundleDialog> {
   // Create product in database
   void deleteBundle() {
     Navigator.pop(context);
-    print(widget.bundleToRemove.product.barcode);
-    Provider.of<Cart>(context, listen: true)
+    Provider.of<Cart>(context, listen: false)
         .removeBundle(widget.bundleToRemove);
   }
 }

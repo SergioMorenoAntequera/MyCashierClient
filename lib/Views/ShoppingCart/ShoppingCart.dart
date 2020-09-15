@@ -17,10 +17,6 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
-  Cart myCart = new Cart(bundles: <Bundle>[]);
-  var _inTheTrolley = <Bundle>[];
-  double _totalPrice = 0;
-
   @override
   Widget build(BuildContext context) {
     var myCartAux = Provider.of<Cart>(context, listen: true);
@@ -90,7 +86,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Future _startScanning() async {
     // String barcode = await scanner.scan();
     // String barcode = "8412779230601";
-    String barcode = "111112";
+    // String barcode = "111112";
+    String barcode = "expensive";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
@@ -120,17 +117,5 @@ class _ShoppingCartState extends State<ShoppingCart> {
         myCartAux.addBundle(newBundle);
       }
     }
-  }
-
-  addToTrolley(Bundle newBundle) {
-    setState(() {
-      _inTheTrolley.add(newBundle);
-    });
-  }
-
-  changeTotal(double price) {
-    setState(() {
-      this._totalPrice += price;
-    });
   }
 }

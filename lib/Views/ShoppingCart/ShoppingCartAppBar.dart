@@ -7,10 +7,7 @@ import '../../Widgets/Dialogs/FinishShoppingDialog.dart' as dialogs;
 class ShoppingCartAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double height;
 
-  const ShoppingCartAppBar({
-    Key key,
-    @required this.height,
-  }) : super(key: key);
+  const ShoppingCartAppBar({Key key, @required this.height}) : super(key: key);
 
   @override
   _ShoppingCartAppBarState createState() => _ShoppingCartAppBarState();
@@ -45,43 +42,23 @@ class _ShoppingCartAppBarState extends State<ShoppingCartAppBar> {
               padding: EdgeInsets.all(10),
               // MAIN ROW
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // TOTAL PRICE
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Consumer<Cart>(
-                        builder: (context, cart, child) {
-                          var value = cart.getTotalPrice().toStringAsFixed(2);
-                          return Text(
-                            "$value€",
-                            style: Theme.of(context).textTheme.headline1,
-                          );
-                        },
-                      ),
+                  Container(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Consumer<Cart>(
+                      builder: (context, cart, child) {
+                        var value = cart.getTotalPrice().toStringAsFixed(2);
+                        return Text(
+                          "$value€",
+                          style: Theme.of(context).textTheme.headline1,
+                        );
+                      },
                     ),
                   ),
                   // Finish shopping Button
-                  Container(
-                    width: 100,
-                    margin: EdgeInsets.only(right: 10),
-                    child: RaisedButton(
-                      padding: EdgeInsets.only(
-                          top: 8, bottom: 8, left: 15, right: 15),
-                      color: Colors.black,
-                      child: Text(
-                        "Terminar compra",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-                      onPressed: () => {
-                        // _finishShopping(context),
-                      },
-                    ),
-                  )
+                  FinishShoppingButton()
                 ],
               ),
             ),
@@ -90,8 +67,35 @@ class _ShoppingCartAppBarState extends State<ShoppingCartAppBar> {
       ],
     );
   }
+}
 
-  _finishShopping(context) {
+class FinishShoppingButton extends StatelessWidget {
+  const FinishShoppingButton({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      margin: EdgeInsets.only(right: 10),
+      child: RaisedButton(
+        padding: EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
+        color: Colors.black,
+        child: Text(
+          "Terminar compra",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+          ),
+        ),
+        onPressed: () => {
+          _finishShopping(context),
+        },
+      ),
+    );
+  }
+
+  _finishShopping(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

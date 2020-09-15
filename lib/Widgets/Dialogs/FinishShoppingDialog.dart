@@ -21,7 +21,7 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Perfecto! \nHas terminado de comprar?",
+              "Perfecto! \n¿Has terminado de comprar?",
               style: Theme.of(context).textTheme.subtitle2,
               textAlign: TextAlign.left,
             ),
