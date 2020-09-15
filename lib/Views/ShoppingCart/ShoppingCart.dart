@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
@@ -17,6 +19,8 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
+  ScrollController _scrollController = new ScrollController();
+
   @override
   Widget build(BuildContext context) {
     var myCartAux = Provider.of<Cart>(context, listen: true);
@@ -30,6 +34,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
           ? buildEmptyCartWarning()
           // Show the list
           : ListView.builder(
+              controller: _scrollController,
+              // reverse: true,
               itemCount: myCartAux.bundles.length,
               itemBuilder: (context, index) {
                 final bundle = myCartAux.bundles[index];
@@ -38,9 +44,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.linked_camera),
-        onPressed: _startScanning,
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 40),
+        child: FloatingActionButton(
+          child: Icon(Icons.search),
+          onPressed: _startScanning,
+        ),
       ),
     );
   }
@@ -87,7 +96,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     // String barcode = await scanner.scan();
     // String barcode = "8412779230601";
     // String barcode = "111112";
-    String barcode = "expensive";
+    String barcode = "8480000asdasd180865";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
@@ -100,6 +109,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
           return new dialogs.AddProductDialog(
             context: context,
             barcodeToAdd: barcode,
+            notifier: notifyAddProduct,
           );
         },
       );
@@ -116,6 +126,32 @@ class _ShoppingCartState extends State<ShoppingCart> {
         var newBundle = new Bundle(product: fetchedProduct, amount: 1);
         myCartAux.addBundle(newBundle);
       }
+      notifyAddProduct();
+    }
+  }
+
+  void notifyAddProduct() {
+    var myCartAux = Provider.of<Cart>(context, listen: false);
+    final snackBar = SnackBar(
+      duration: Duration(seconds: 1),
+      behavior: SnackBarBehavior.floating,
+      content: Text('Producto añadido al carrito'),
+    );
+
+    // Find the Scaffold in the widget tree and use it to show a SnackBar.
+    Scaffold.of(context).showSnackBar(snackBar);
+
+    if (myCartAux.bundles.length > 1) {
+      Timer(
+        Duration(milliseconds: 100),
+        () => {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 300),
+          )
+        },
+      );
     }
   }
 }

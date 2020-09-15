@@ -7,8 +7,9 @@ import '../../Models/Product.dart';
 class AddProductDialog extends StatefulWidget {
   final BuildContext context;
   final String barcodeToAdd;
+  final Function notifier;
 
-  AddProductDialog({this.context, this.barcodeToAdd});
+  AddProductDialog({this.context, this.barcodeToAdd, this.notifier});
 
   @override
   _AddProductDialogState createState() => _AddProductDialogState();
@@ -100,6 +101,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
     Bundle newBundle = new Bundle(product: newProduct, amount: 1);
     Provider.of<Cart>(context, listen: true).addBundle(newBundle);
 
+    widget.notifier();
     Navigator.pop(context);
   }
 }

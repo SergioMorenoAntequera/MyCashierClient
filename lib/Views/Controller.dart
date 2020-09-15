@@ -34,8 +34,8 @@ class _ControllerState extends State<Controller> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            title: Text('Scanner'),
+            icon: Icon(Icons.shopping_cart),
+            title: Text('Carrito'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.perm_data_setting),
