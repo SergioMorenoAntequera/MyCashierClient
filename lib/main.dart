@@ -9,12 +9,7 @@ import 'Views/Controller.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      builder: (context) => Cart(bundles: [
-        new Bundle(
-          amount: 1,
-          product: new Product(barcode: "231", name: "PRA", price: 1.2),
-        )
-      ]),
+      builder: (context) => Cart(bundles: []),
       child: MyApp(),
     ),
   );

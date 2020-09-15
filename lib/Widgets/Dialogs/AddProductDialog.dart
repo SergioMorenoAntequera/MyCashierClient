@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode_test/Models/Cart.dart';
 import '../../Models/Bundle.dart';
 import '../../Models/Product.dart';
 
 class AddProductDialog extends StatefulWidget {
   final BuildContext context;
   final String barcodeToAdd;
-  final Function addToTrolley;
 
-  AddProductDialog({this.context, this.barcodeToAdd, this.addToTrolley});
+  AddProductDialog({this.context, this.barcodeToAdd});
 
   @override
   _AddProductDialogState createState() => _AddProductDialogState();
@@ -97,7 +98,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
     );
     newProduct = await newProduct.create();
     Bundle newBundle = new Bundle(product: newProduct, amount: 1);
-    widget.addToTrolley(newBundle);
+    Provider.of<Cart>(context, listen: true).addBundle(newBundle);
 
     Navigator.pop(context);
   }

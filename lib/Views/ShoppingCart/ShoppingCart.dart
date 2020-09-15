@@ -90,7 +90,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Future _startScanning() async {
     // String barcode = await scanner.scan();
     // String barcode = "8412779230601";
-    String barcode = "11111";
+    String barcode = "111112";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
@@ -103,7 +103,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
           return new dialogs.AddProductDialog(
             context: context,
             barcodeToAdd: barcode,
-            addToTrolley: addToTrolley,
           );
         },
       );
