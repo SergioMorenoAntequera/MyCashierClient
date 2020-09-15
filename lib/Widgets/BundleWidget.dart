@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
 import 'package:qrcode_test/Models/Cart.dart';
+import 'Dialogs/ConfirmDeleteBundleDialog.dart' as dialogs;
 
 class BundleWidget extends StatefulWidget {
   final Bundle bundleShowing;
@@ -29,7 +30,18 @@ class _BundleWidgetState extends State<BundleWidget> {
         padding: const EdgeInsets.only(top: 5, left: 10),
         child: IconButton(
           padding: EdgeInsets.all(0),
-          onPressed: () => {},
+          onPressed: () => {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return dialogs.ConfirmDeleteBundleDialog(
+                  bundleToRemove: bundle,
+                  context: context,
+                  order: 0,
+                );
+              },
+            )
+          },
           icon: Icon(
             Icons.delete,
             size: 50,
@@ -73,6 +85,16 @@ class _BundleWidgetState extends State<BundleWidget> {
                                 .overrideBundle(bundle);
                           } else {
                             // Show modal to confirm delete item
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return dialogs.ConfirmDeleteBundleDialog(
+                                  bundleToRemove: bundle,
+                                  context: context,
+                                  order: 1,
+                                );
+                              },
+                            );
                           }
                         })
                       },

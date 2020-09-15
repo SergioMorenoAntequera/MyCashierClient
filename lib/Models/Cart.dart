@@ -28,13 +28,16 @@ class Cart extends ChangeNotifier {
   }
 
   findBundle(Bundle bundleToFind) {
+    var bundleFound;
     var barcodeToFind = bundleToFind.product.barcode;
+
     bundles.forEach((bundle) {
       if (barcodeToFind == bundle.product.barcode) {
-        return bundle;
+        bundleFound = bundle;
+        return;
       }
     });
-    return null;
+    return bundleFound;
   }
 
   findByBarcode(String barcode) {
