@@ -5,8 +5,8 @@ import 'package:qrcode_test/Models/Cart.dart';
 
 class ConfirmDeleteBundleDialog extends StatefulWidget {
   final BuildContext context;
-  final int order;
   final Bundle bundleToRemove;
+  final int order;
 
   ConfirmDeleteBundleDialog({
     this.context,

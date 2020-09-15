@@ -96,7 +96,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     // String barcode = await scanner.scan();
     // String barcode = "8412779230601";
     // String barcode = "111112";
-    String barcode = "8480000asdasd180865";
+    String barcode = "8480000asdsasd180865";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
@@ -115,8 +115,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
       );
     } else {
       // WE DO
-      // Logic to show the product with this barcode
-      //Check if it's already inside
       var myCartAux = Provider.of<Cart>(context, listen: false);
       var bundleFound = myCartAux.findByBarcode(barcode);
       if (bundleFound != null) {
@@ -132,13 +130,13 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   void notifyAddProduct() {
     var myCartAux = Provider.of<Cart>(context, listen: false);
+
     final snackBar = SnackBar(
       duration: Duration(seconds: 1),
       behavior: SnackBarBehavior.floating,
       content: Text('Producto añadido al carrito'),
     );
 
-    // Find the Scaffold in the widget tree and use it to show a SnackBar.
     Scaffold.of(context).showSnackBar(snackBar);
 
     if (myCartAux.bundles.length > 1) {
