@@ -1,5 +1,8 @@
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'ShoppingCart/ShoppingCart.dart';
+import '../Models/User.dart';
 
 class Controller extends StatefulWidget {
   Controller({Key key}) : super(key: key);
@@ -9,9 +12,30 @@ class Controller extends StatefulWidget {
 }
 
 class _ControllerState extends State<Controller> {
+  /////////////////////////////////////////////////////////////////////////////
+  // SESSION STUFF ////////////////////////////////////////////////////////////
+  initState() {
+    super.initState();
+    checkSession();
+  }
+
+  Future<void> checkSession() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int id = (prefs.getInt('sessionId'));
+    if (id != null) {
+      var user = await User.fetchByIdFillProvider(id);
+      Provider.of<User>(context, listen: false).fromJsonFillProvider(user);
+    }
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // NAVEGATION BAR ///////////////////////////////////////////////////////////
+
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 30,
+  );
 
   static List<Widget> _widgetOptions = <Widget>[
     ShoppingCart(),
@@ -53,3 +77,5 @@ class _ControllerState extends State<Controller> {
     );
   }
 }
+
+class CartModel {}

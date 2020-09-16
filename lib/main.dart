@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qrcode_test/Models/Bundle.dart';
 import 'package:qrcode_test/Models/Cart.dart';
-import 'package:qrcode_test/Models/Product.dart';
+import 'package:qrcode_test/Models/User.dart';
 import 'themes.dart';
 import 'Views/Controller.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      builder: (context) => Cart(bundles: []),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(builder: (context) => Cart(bundles: [])),
+        ChangeNotifierProvider(builder: (context) => User()),
+        // ChangeNotifierProvider(
+        //   builder: (context) => User(
+        //     id: 0,
+        //     username: "",
+        //     email: "",
+        //     password: "",
+        //   ),
+        // ),
+      ],
       child: MyApp(),
     ),
   );
