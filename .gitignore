@@ -31,6 +31,9 @@
 .pub/
 /build/
 
+#Google Services
+/android/app/google-services.json
+
 # My server
 assets/config/HostConnection.json
 

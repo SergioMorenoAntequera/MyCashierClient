@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode_test/Models/User.dart';
 
 class FinishShoppingDialog extends StatefulWidget {
   final BuildContext context;
@@ -18,18 +20,26 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
       content: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Perfecto! \n¿Has terminado de comprar?",
+              "Se acabaron los tickets sueltos",
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            Text(
+              "\nEsto guardará para que puedas verla cuando quieras y más!",
               style: Theme.of(context).textTheme.subtitle2,
-              textAlign: TextAlign.left,
+            ),
+            Text(
+              "\nSolo tienes que iniciar sesión o ",
+              style: Theme.of(context).textTheme.subtitle2,
             ),
           ],
         ),
       ),
       actions: [
-        FlatButton(
+        RaisedButton(
           onPressed: () => {Navigator.pop(context)},
           child: Text(
             "No, falta algo",
@@ -45,5 +55,12 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
   }
 
   // Create product in database
-  void _createNewOrder() {}
+  void _createNewOrder() {
+    var currentUser = Provider.of<User>(context);
+    if (currentUser.id == null) {
+      print("You need to log in");
+    } else {
+      print("creando orden con los productos");
+    }
+  }
 }

@@ -11,14 +11,6 @@ void main() {
       providers: [
         ChangeNotifierProvider(builder: (context) => Cart(bundles: [])),
         ChangeNotifierProvider(builder: (context) => User()),
-        // ChangeNotifierProvider(
-        //   builder: (context) => User(
-        //     id: 0,
-        //     username: "",
-        //     email: "",
-        //     password: "",
-        //   ),
-        // ),
       ],
       child: MyApp(),
     ),

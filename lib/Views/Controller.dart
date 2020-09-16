@@ -23,8 +23,8 @@ class _ControllerState extends State<Controller> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int id = (prefs.getInt('sessionId'));
     if (id != null) {
-      var user = await User.fetchByIdFillProvider(id);
-      Provider.of<User>(context, listen: false).fromJsonFillProvider(user);
+      var userData = await User.fetchByIdFillProvider(id);
+      Provider.of<User>(context, listen: false).fromJsonFillProvider(userData);
     }
   }
 
