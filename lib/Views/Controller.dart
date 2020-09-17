@@ -77,5 +77,3 @@ class _ControllerState extends State<Controller> {
     );
   }
 }
-
-class CartModel {}
