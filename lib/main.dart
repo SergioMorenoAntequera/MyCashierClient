@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Cart.dart';
-import 'package:qrcode_test/Models/User.dart';
+import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/themes.dart';
 import 'Views/Controller.dart';
 import 'Views/FirebaseError.dart';
@@ -14,7 +14,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(builder: (context) => Cart(bundles: [])),
-        ChangeNotifierProvider(builder: (context) => User()),
+        // ChangeNotifierProvider(builder: (context) => MyUser()),
       ],
       child: MyApp(),
     ),

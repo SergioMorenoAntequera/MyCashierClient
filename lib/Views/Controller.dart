@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'ShoppingCart/ShoppingCart.dart';
 // import '../Models/User.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
 class Controller extends StatefulWidget {
   Controller({Key key}) : super(key: key);
 
@@ -18,25 +16,24 @@ class _ControllerState extends State<Controller> {
   // SESSION STUFF ////////////////////////////////////////////////////////////
   initState() {
     super.initState();
-    checkSession();
+    // checkSession();
   }
 
-  Future<void> checkSession() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // int id = (prefs.getInt('sessionId'));
-    // if (id != null) {
-    //   var userData = await User.fetchByIdFillProvider(id);
-    //   Provider.of<User>(context, listen: false).fromJsonFillProvider(userData);
-    // }
-    FirebaseAuth auth = FirebaseAuth.instance;
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
-  }
+  // Future<void> checkSession() async {
+  //   // SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   // int id = (prefs.getInt('sessionId'));
+  //   // if (id != null) {
+  //   //   var userData = await User.fetchByIdFillProvider(id);
+  //   //   Provider.of<User>(context, listen: false).fromJsonFillProvider(userData);
+  //   // }
+  //   FirebaseAuth.instance.authStateChanges().listen((User user) {
+  //     if (user == null) {
+  //       print('User is currently signed out!');
+  //     } else {
+  //       print('User is signed in!');
+  //     }
+  //   });
+  // }
 
   /////////////////////////////////////////////////////////////////////////////
   // NAVEGATION BAR ///////////////////////////////////////////////////////////

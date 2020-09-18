@@ -31,11 +31,11 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
               style: Theme.of(context).textTheme.headline2,
             ),
             Text(
-              "\nEsto guardará para que puedas verla cuando quieras y más!",
+              "\nAquí puedes gardar los tickets para verlos cuando quieras y más!",
               style: Theme.of(context).textTheme.subtitle2,
             ),
             Text(
-              "\nSolo tienes que iniciar sesión o ",
+              "\nInicia sesión con google para empezar.",
               style: Theme.of(context).textTheme.subtitle2,
             ),
           ],
@@ -43,15 +43,15 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
       ),
       actions: [
         RaisedButton(
-          onPressed: () => {Navigator.pop(context)},
+          onPressed: () => {logOut()},
           child: Text(
-            "No, falta algo",
+            "Cancelar",
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
         RaisedButton(
           onPressed: _createNewOrder,
-          child: Text("Sí, está todo"),
+          child: Text("Iniciar Sesión"),
         ),
       ],
     );
@@ -59,15 +59,22 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
 
   // Create product in database
   void _createNewOrder() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
-      if (user == null) {
-        print('User is currently signed out!');
-        var userCredential = signInWithGoogle();
-      } else {
-        print('User is signed in!');
-      }
-    });
+    // Check user
+    var user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print('User is currently signed out!!!');
+      var userCredential = await signInWithGoogle();
+      print(userCredential.user);
+    } else {
+      print('User is signed in!');
+      print(user.uid);
+    }
+  }
+
+  void logOut() async {
+    print("LOGING OUT");
+    await FirebaseAuth.instance.signOut();
+    Navigator.pop(context);
   }
 
   Future<UserCredential> signInWithGoogle() async {

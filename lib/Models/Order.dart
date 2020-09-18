@@ -1,9 +1,9 @@
 import 'Bundle.dart';
-import 'User.dart';
+import 'MyUser.dart';
 
 class Order {
   int id;
-  User user;
+  MyUser user;
   double totalPrice;
   List<Bundle> bundles;
 }
