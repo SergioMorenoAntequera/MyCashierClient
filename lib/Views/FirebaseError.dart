@@ -5,7 +5,7 @@ class FirebaseError extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Error"),
+        child: Text("Error :(\nComprueba tu conexión a internet"),
       ),
     );
   }

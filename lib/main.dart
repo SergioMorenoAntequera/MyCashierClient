@@ -26,20 +26,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _AppState extends State<MyApp> {
-  // Set default `_initialized` and `_error` state to false
   bool _initialized = false;
   bool _error = false;
 
-  // Define an async function to initialize FlutterFire
   void initializeFlutterFire() async {
     try {
-      // Wait for Firebase to initialize and set `_initialized` state to true
       await Firebase.initializeApp();
       setState(() {
         _initialized = true;
       });
     } catch (e) {
-      // Set `_error` state to true if Firebase initialization fails
       setState(() {
         _error = true;
       });
@@ -59,23 +55,22 @@ class _AppState extends State<MyApp> {
       return new MaterialApp(
         title: "My Cashier",
         theme: defaultTheme,
-        home: new FirebaseError(),
+        home: FirebaseError(),
       );
     }
 
-    // Show a loader until FlutterFire is initialized
     if (!_initialized) {
       return new MaterialApp(
         title: "My Cashier",
         theme: defaultTheme,
-        home: new FirebaseLoading(),
+        home: FirebaseLoading(),
       );
     }
 
     return new MaterialApp(
       title: "My Cashier",
       theme: defaultTheme,
-      home: new Controller(),
+      home: Controller(),
     );
   }
 }
