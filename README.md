@@ -1,6 +1,8 @@
-# qrcode_test
+# My Cashier
 
-A new Flutter project.
+This is an app that you can use to register the items that you put inside your shopping cart as
+you go buying products to know how much is the total and keep logs of it so at the end of the month 
+you can check how much have you spent and make accountments easy.
 
 ## Getting Started
 
