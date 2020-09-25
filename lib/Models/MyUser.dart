@@ -41,6 +41,16 @@ class MyUser extends ChangeNotifier {
   ////////////////////////////////////////////////////////////////////////////
   // METHODS /////////////////////////////////////////////////////////////////
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': this.id,
+      'barcode': this.displayName,
+      'name': this.email,
+      'price': this.phoneNumber,
+      'photoURL': this.photoURL,
+    };
+  }
+
   static Future<MyUser> fetchById(id) async {
     var fetchedData = await Model.fetchByParameters("users", "id", id);
     if (fetchedData != null) {

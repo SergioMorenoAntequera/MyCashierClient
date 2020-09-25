@@ -66,15 +66,15 @@ class _ControllerState extends State<Controller> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
-            title: Text('Carrito'),
+            label: 'Carrito',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.perm_data_setting),
-            title: Text('Historial'),
+            label: 'Historial',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            title: Text('Inventario'),
+            label: 'Inventario',
           ),
         ],
         currentIndex: _selectedIndex,

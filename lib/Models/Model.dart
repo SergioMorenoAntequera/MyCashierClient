@@ -37,6 +37,7 @@ class Model {
     }
   }
 
+  // Get all in a table
   static Future<List> all(table) async {
     dynamic config = await Model.getHostConfig();
     String url = "http://" + config['host'] + ":" + config['port'];
@@ -48,6 +49,31 @@ class Model {
       return jsonData;
     } else {
       throw Exception('Failed to load the product');
+    }
+  }
+
+  // Create register in a table
+  static Future<dynamic> create(table, object) async {
+    var hostConfig = await Model.getHostConfig();
+    var url = 'http://' + hostConfig['host'] + ":" + hostConfig['port'];
+
+    // We have parse the body depending in the object
+    final response = await http.post(
+      url + '/$table',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(object.toJson()),
+    );
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      // Todo cool
+      var jsonData = json.decode(response.body);
+      return jsonData;
+    } else {
+      // Todo bad
+      print(response.statusCode);
+      throw Exception('Failed to create the new register');
     }
   }
 }

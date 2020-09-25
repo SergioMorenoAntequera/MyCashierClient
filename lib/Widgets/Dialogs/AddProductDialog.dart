@@ -98,10 +98,11 @@ class _AddProductDialogState extends State<AddProductDialog> {
       price: double.parse(newProductPriceController.text),
     );
     newProduct = await newProduct.create();
+
     Bundle newBundle = new Bundle(product: newProduct, amount: 1);
     Provider.of<Cart>(context, listen: true).addBundle(newBundle);
 
-    widget.notifier();
+    // widget.notifier();
     Navigator.pop(context);
   }
 }
