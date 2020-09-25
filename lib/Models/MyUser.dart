@@ -3,45 +3,44 @@ import 'Model.dart';
 
 class MyUser extends ChangeNotifier {
   final int id;
-  final String username;
+  final String displayName;
   final String email;
   final String phoneNumber;
   final String photoURL;
 
   ////////////////////////////////////////////////////////////////////////////
   // CONSTRUCTORS ////////////////////////////////////////////////////////////
-  MyUser({this.id, this.username, this.email, this.phoneNumber, this.photoURL});
+  MyUser({
+    this.id,
+    this.displayName,
+    this.email,
+    this.phoneNumber,
+    this.photoURL,
+  });
 
   factory MyUser.fromJson(Map<String, dynamic> json) {
     return MyUser(
-      id: json['id'],
-      username: json['username'],
+      id: json['uid'],
+      displayName: json['displayName'],
       email: json['email'],
-      phoneNumber: json['password'],
+      phoneNumber: json['phoneNumber'],
+      photoURL: json['photoURL'],
     );
   }
 
-  factory MyUser.fromJsonFillGoogle(dynamic googleUser) {
+  factory MyUser.fromGoogle(dynamic googleUser) {
     return MyUser(
       id: googleUser.uid,
-      username: googleUser.displayName,
+      displayName: googleUser.displayName,
       email: googleUser.email,
       phoneNumber: googleUser.phoneNumber,
       photoURL: googleUser.photoURL,
     );
   }
 
-  // static Future<Map<String, dynamic>> fetchByIdFillProvider(id) async {
-  //   var fetchedData = await Model.fetchByParameters("users", "id", id);
-  //   if (fetchedData != null) {
-  //     return fetchedData;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
   ////////////////////////////////////////////////////////////////////////////
   // METHODS /////////////////////////////////////////////////////////////////
+
   static Future<MyUser> fetchById(id) async {
     var fetchedData = await Model.fetchByParameters("users", "id", id);
     if (fetchedData != null) {
