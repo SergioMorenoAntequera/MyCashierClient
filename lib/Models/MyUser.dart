@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'Model.dart';
 
-class MyUser extends ChangeNotifier {
-  final int id;
+class MyUser {
+  final String id;
   final String displayName;
   final String email;
   final String phoneNumber;
@@ -28,6 +27,16 @@ class MyUser extends ChangeNotifier {
     );
   }
 
+  factory MyUser.fromJsonDatabase(Map<String, dynamic> json) {
+    return MyUser(
+      id: json['id'],
+      displayName: json['display_name'],
+      email: json['email'],
+      phoneNumber: json['phone_number'],
+      photoURL: json['photo_url'],
+    );
+  }
+
   factory MyUser.fromGoogle(dynamic googleUser) {
     return MyUser(
       id: googleUser.uid,
@@ -44,10 +53,20 @@ class MyUser extends ChangeNotifier {
   Map<String, dynamic> toJson() {
     return {
       'id': this.id,
-      'barcode': this.displayName,
-      'name': this.email,
-      'price': this.phoneNumber,
+      'displayName': this.displayName,
+      'email': this.email,
+      'phoneNumber': this.phoneNumber,
       'photoURL': this.photoURL,
+    };
+  }
+
+  Map<String, dynamic> toJsonDatabase() {
+    return {
+      'id': this.id,
+      'display_name': this.displayName,
+      'email': this.email,
+      'phone_number': this.phoneNumber,
+      'photo_url': this.photoURL,
     };
   }
 
@@ -58,5 +77,10 @@ class MyUser extends ChangeNotifier {
     } else {
       return null;
     }
+  }
+
+  Future<MyUser> create() async {
+    var newUser = await Model.create("users", this);
+    return MyUser.fromJsonDatabase(newUser);
   }
 }

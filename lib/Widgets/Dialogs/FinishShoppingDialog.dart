@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:qrcode_test/Models/MyUser.dart';
 
 class FinishShoppingDialog extends StatefulWidget {
   final BuildContext context;
@@ -62,9 +63,10 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
     // Check user
     var user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      print('User is currently signed out!!!');
+      print('User is currently signed out, Signing in!!!');
       var userCredential = await signInWithGoogle();
-      print(userCredential.user);
+      var myUser = MyUser.fromGoogle(userCredential.user);
+      await myUser.create();
     } else {
       print('User is signed in!');
       print(user.uid);

@@ -1,6 +1,4 @@
 import 'package:qrcode_test/Models/Model.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class Product {
   int id;

@@ -57,13 +57,12 @@ class Model {
     var hostConfig = await Model.getHostConfig();
     var url = 'http://' + hostConfig['host'] + ":" + hostConfig['port'];
 
-    // We have parse the body depending in the object
     final response = await http.post(
       url + '/$table',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(object.toJson()),
+      body: jsonEncode(object.toJsonDatabase()),
     );
 
     if (response.statusCode == 201 || response.statusCode == 200) {
