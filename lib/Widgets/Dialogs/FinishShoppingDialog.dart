@@ -51,25 +51,32 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
           ),
         ),
         RaisedButton(
-          onPressed: _createNewOrder,
+          onPressed: _loginOrCreate,
           child: Text("Iniciar Sesión"),
+        ),
+        RaisedButton(
+          onPressed: () => {print(FirebaseAuth.instance.currentUser.uid)},
+          child: Text("check user"),
         ),
       ],
     );
   }
 
   // Create product in database
-  void _createNewOrder() async {
+  void _loginOrCreate() async {
     // Check user
     var user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      print('User is currently signed out, Signing in!!!');
+      // User not logged in, checking or creating new one
       var userCredential = await signInWithGoogle();
-      var myUser = MyUser.fromGoogle(userCredential.user);
-      await myUser.create();
+
+      var fetchedUser = await MyUser.fetchById(userCredential.user.uid);
+      if (fetchedUser == null) {
+        await MyUser.fromGoogle(userCredential.user).create();
+      }
     } else {
-      print('User is signed in!');
-      print(user.uid);
+      // Create order
+
     }
   }
 

@@ -73,7 +73,7 @@ class MyUser {
   static Future<MyUser> fetchById(id) async {
     var fetchedData = await Model.fetchByParameters("users", "id", id);
     if (fetchedData != null) {
-      return MyUser.fromJson(fetchedData);
+      return MyUser.fromJsonDatabase(fetchedData);
     } else {
       return null;
     }

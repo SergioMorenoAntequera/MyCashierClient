@@ -33,7 +33,12 @@ class Model {
         return jsonData;
       }
     } else {
-      throw Exception('Error 500');
+      if (response.statusCode == 204) {
+        // No content
+        return null;
+      } else {
+        throw Exception('Error 500');
+      }
     }
   }
 
