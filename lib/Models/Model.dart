@@ -62,12 +62,19 @@ class Model {
     var hostConfig = await Model.getHostConfig();
     var url = 'http://' + hostConfig['host'] + ":" + hostConfig['port'];
 
+    var data;
+    try {
+      data = jsonEncode(object.toJsonDatabase());
+    } catch (e) {
+      print("********* ERROR MIO LOCO *********\n A $object le falta el metodo toJsonDatabase");
+    }
+
     final response = await http.post(
       url + '/$table',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(object.toJsonDatabase()),
+      body: data,
     );
 
     if (response.statusCode == 201 || response.statusCode == 200) {

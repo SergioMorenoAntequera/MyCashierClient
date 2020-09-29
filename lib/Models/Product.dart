@@ -28,6 +28,15 @@ class Product {
     };
   }
 
+  Map<String, dynamic> toJsonDatabase() {
+    return {
+      'id': this.id,
+      'barcode': this.barcode,
+      'name': this.name,
+      'price': this.price,
+    };
+  }
+
   ////////////////////////////////////////////////////////////////////////////
   // METHODS /////////////////////////////////////////////////////////////////
   static Future<Product> fetchById(id) async {

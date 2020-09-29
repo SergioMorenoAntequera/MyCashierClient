@@ -96,7 +96,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     // String barcode = await scanner.scan();
     // String barcode = "8412779230601";
     // String barcode = "111112";
-    String barcode = "8480000asdsasd180865";
+    String barcode = "8480000assdsasd180865";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
