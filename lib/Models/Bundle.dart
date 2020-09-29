@@ -32,4 +32,8 @@ class Bundle {
       return null;
     }
   }
+
+  Future<Bundle> create() async {
+    var newBundle = await Model.create("orders", this);
+  }
 }

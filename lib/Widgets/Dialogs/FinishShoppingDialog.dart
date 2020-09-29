@@ -71,7 +71,8 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
     } else {
       // Create the order and the bundles in the database
       var newOrder = Order.fromGlobalInfo(context);
-      print(newOrder.totalPrice);
+      newOrder = await newOrder.create();
+      print(newOrder.id);
 
       // Show modal or breadcrum telling people to go to History menu
 

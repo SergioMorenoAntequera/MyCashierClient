@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Cart.dart';
+import 'package:qrcode_test/Models/Model.dart';
 
 import 'Bundle.dart';
 import 'MyUser.dart';
@@ -27,10 +28,13 @@ class Order {
     );
   }
 
-  factory Order.fromJsonDatabase(Map<String, dynamic> json) {
+  // This cant be a factory bc it cant be async
+  static fromJsonDatabase(Map<String, dynamic> json) async {
+    var fetchedUser = await MyUser.fetchById(json['user_id']);
+
     return Order(
       id: json['id'],
-      user: json['user_id'],
+      user: fetchedUser,
       totalPrice: json['total_price'],
     );
   }
@@ -42,6 +46,7 @@ class Order {
     var totalPrice = 0.0;
     for (var i = 0; i < myCart.bundles.length; i++) {
       totalPrice += myCart.bundles[i].product.price * myCart.bundles[i].amount;
+      myCart.bundles[i].order = newOrder;
     }
 
     newOrder.user = myUser;
@@ -49,5 +54,27 @@ class Order {
     newOrder.totalPrice = totalPrice;
 
     return newOrder;
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // EXTRA /////////////////////////////////////////////////////////////////////
+
+  // TO JSON DATABASE //////////////////////////////////////////////////////////
+  Map<String, dynamic> toJsonDatabase() {
+    return {
+      'id': this.id,
+      'user_id': this.user.id,
+      'total_price': this.totalPrice,
+    };
+  }
+
+  // CREATE ////////////////////////////////////////////////////////////////////
+  Future<Order> create() async {
+    // The info in grabbed from ToJSONDatabase inside Model
+    // To get the new ID so we can use it in the bundles
+    var newOrderJSON = await Model.create("orders", this);
+    var newOrder = await Order.fromJsonDatabase(newOrderJSON);
+
+    // Crear los bundles con la ip de arriba y los productos
   }
 }
