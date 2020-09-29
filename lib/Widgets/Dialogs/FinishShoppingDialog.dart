@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
+import 'package:qrcode_test/Models/Order.dart';
 
 class FinishShoppingDialog extends StatefulWidget {
   final BuildContext context;
@@ -43,27 +44,20 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
         ),
       ),
       actions: [
-        RaisedButton(
-          onPressed: () => {logOut()},
-          child: Text(
-            "Cancelar",
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
+        FlatButton(
+          onPressed: () => {Navigator.pop(context)},
+          child: Text("Cancelar", style: Theme.of(context).textTheme.bodyText1),
         ),
         RaisedButton(
-          onPressed: _loginOrCreate,
+          onPressed: _loginOrRegister,
           child: Text("Iniciar Sesión"),
-        ),
-        RaisedButton(
-          onPressed: () => {print(FirebaseAuth.instance.currentUser.uid)},
-          child: Text("check user"),
         ),
       ],
     );
   }
 
   // Create product in database
-  void _loginOrCreate() async {
+  void _loginOrRegister() async {
     // Check user
     var user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -75,15 +69,13 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
         await MyUser.fromGoogle(userCredential.user).create();
       }
     } else {
-      // Create order
+      // Create the order and the bundles in the database
+      var newOrder = Order.fromGlobalInfo(context);
+      print(newOrder.totalPrice);
+
+      // Show modal or breadcrum telling people to go to History menu
 
     }
-  }
-
-  void logOut() async {
-    print("LOGING OUT");
-    await FirebaseAuth.instance.signOut();
-    Navigator.pop(context);
   }
 
   Future<UserCredential> signInWithGoogle() async {
