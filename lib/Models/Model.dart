@@ -66,7 +66,8 @@ class Model {
     try {
       data = jsonEncode(object.toJsonDatabase());
     } catch (e) {
-      print("********* ERROR MIO LOCO *********\n A $object le falta el metodo toJsonDatabase");
+      print(
+          "********* ERROR MIO LOCO *********\n A $object le falta el metodo toJsonDatabase");
     }
 
     final response = await http.post(
@@ -84,6 +85,7 @@ class Model {
     } else {
       // Todo bad
       print(response.statusCode);
+      print(data);
       throw Exception('Failed to create the new register');
     }
   }

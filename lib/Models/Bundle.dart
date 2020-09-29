@@ -22,8 +22,19 @@ class Bundle {
     );
   }
 
+  // This cant be a factory bc it cant be async
+  static fromJsonDatabase(Map<String, dynamic> json) async {
+    var fetchedProduct = await Product.fetchById(json['product_id']);
+
+    return Bundle(
+      id: json['id'],
+      product: fetchedProduct,
+      amount: json['amount'],
+    );
+  }
+
   ////////////////////////////////////////////////////////////////////////////
-  // METHODS /////////////////////////////////////////////////////////////////
+  // EXTRA ///////////////////////////////////////////////////////////////////
   static Future<Bundle> fetchById(id) async {
     var fetchedData = await Model.fetchByParameters("bundles", "id", id);
     if (fetchedData != null) {
@@ -33,7 +44,18 @@ class Bundle {
     }
   }
 
+  // TO JSON DATABASE //////////////////////////////////////////////////////////
+  Map<String, dynamic> toJsonDatabase() {
+    return {
+      'id': this.id,
+      'order_id': this.order.id,
+      'product_id': this.product.id,
+      'amount': this.amount,
+    };
+  }
+
   Future<Bundle> create() async {
-    var newBundle = await Model.create("orders", this);
+    var newBundle = await Model.create("bundles", this);
+    return await Bundle.fromJsonDatabase(newBundle);
   }
 }

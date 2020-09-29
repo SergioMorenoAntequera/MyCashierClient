@@ -35,7 +35,7 @@ class Order {
     return Order(
       id: json['id'],
       user: fetchedUser,
-      totalPrice: json['total_price'],
+      totalPrice: json['total_price'].toDouble(),
     );
   }
 
@@ -59,6 +59,16 @@ class Order {
   //////////////////////////////////////////////////////////////////////////////
   // EXTRA /////////////////////////////////////////////////////////////////////
 
+  // GET BY ID /////////////////////////////////////////////////////////////////
+  static Future<Order> fetchById(id) async {
+    var fetchedData = await Model.fetchByParameters("orders", "id", id);
+    if (fetchedData != null) {
+      return Order.fromJsonDatabase(fetchedData);
+    } else {
+      return null;
+    }
+  }
+
   // TO JSON DATABASE //////////////////////////////////////////////////////////
   Map<String, dynamic> toJsonDatabase() {
     return {
@@ -73,8 +83,15 @@ class Order {
     // The info in grabbed from ToJSONDatabase inside Model
     // To get the new ID so we can use it in the bundles
     var newOrderJSON = await Model.create("orders", this);
-    var newOrder = await Order.fromJsonDatabase(newOrderJSON);
+    Order newOrder = await Order.fromJsonDatabase(newOrderJSON);
+    newOrder.bundles = this.bundles;
 
-    // Crear los bundles con la ip de arriba y los productos
+    // // Crear los bundles con la ip de arriba y los productos
+    newOrder.bundles.forEach((bundle) async {
+      bundle.order = newOrder;
+      await bundle.create();
+    });
+
+    return newOrder;
   }
 }
