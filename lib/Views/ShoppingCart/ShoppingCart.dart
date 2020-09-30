@@ -26,9 +26,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     var myCartAux = Provider.of<Cart>(context, listen: true);
 
     return Scaffold(
-      appBar: ShoppingCartAppBar(
-        height: 90,
-      ),
+      appBar: ShoppingCartAppBar(height: 90),
       body: myCartAux.bundles.isEmpty
           // Warning add something
           ? buildEmptyCartWarning()

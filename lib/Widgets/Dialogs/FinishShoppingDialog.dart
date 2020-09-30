@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 // import 'package:qrcode_test/Models/User.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';

@@ -1,8 +1,6 @@
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'ShoppingCart/ShoppingCart.dart';
-// import '../Models/User.dart';
+import 'History/HistoryView.dart';
 
 class Controller extends StatefulWidget {
   Controller({Key key}) : super(key: key);
@@ -16,24 +14,7 @@ class _ControllerState extends State<Controller> {
   // SESSION STUFF ////////////////////////////////////////////////////////////
   initState() {
     super.initState();
-    // checkSession();
   }
-
-  // Future<void> checkSession() async {
-  //   // SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   // int id = (prefs.getInt('sessionId'));
-  //   // if (id != null) {
-  //   //   var userData = await User.fetchByIdFillProvider(id);
-  //   //   Provider.of<User>(context, listen: false).fromJsonFillProvider(userData);
-  //   // }
-  //   FirebaseAuth.instance.authStateChanges().listen((User user) {
-  //     if (user == null) {
-  //       print('User is currently signed out!');
-  //     } else {
-  //       print('User is signed in!');
-  //     }
-  //   });
-  // }
 
   /////////////////////////////////////////////////////////////////////////////
   // NAVEGATION BAR ///////////////////////////////////////////////////////////
@@ -46,7 +27,7 @@ class _ControllerState extends State<Controller> {
 
   static List<Widget> _widgetOptions = <Widget>[
     ShoppingCart(),
-    Text('Index 1: Estadisticas', style: optionStyle),
+    HistoryView(),
     Text('Index 2: Lista de la compra', style: optionStyle),
   ];
 
