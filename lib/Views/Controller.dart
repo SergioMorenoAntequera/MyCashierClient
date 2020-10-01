@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qrcode_test/Views/History/HistoryLogInController.dart';
 import 'ShoppingCart/ShoppingCart.dart';
-import 'History/HistoryView.dart';
 
 class Controller extends StatefulWidget {
   Controller({Key key}) : super(key: key);
@@ -27,7 +27,7 @@ class _ControllerState extends State<Controller> {
 
   static List<Widget> _widgetOptions = <Widget>[
     ShoppingCart(),
-    HistoryView(),
+    HistoryLoginController(),
     Text('Index 2: Lista de la compra', style: optionStyle),
   ];
 

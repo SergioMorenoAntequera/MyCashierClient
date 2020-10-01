@@ -14,19 +14,26 @@ class _HistoryViewState extends State<HistoryView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HistoryViewAppBar(height: 90),
-      body: FirebaseAuth.instance.currentUser == null
-          ? Center(child: Text("u in boy"))
-          : _NotLogedIn(),
+      body: Column(
+        children: [
+          Center(child: Text("u in boy")),
+          RaisedButton(
+            child: Text("salir"),
+            onPressed: () => {},
+          ),
+        ],
+      ),
     );
   }
 }
 
 // What shows when u are not logged in
-class _NotLogedIn extends StatelessWidget {
+class NotLogedIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
+    return Scaffold(
+      appBar: HistoryViewAppBar(height: 90),
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
@@ -36,7 +43,7 @@ class _NotLogedIn extends StatelessWidget {
           Text("Pero para verlas tienes que guardar iniciar sesión\n"),
           RaisedButton(
             child: Text("PRA"),
-            onPressed: () => {},
+            onPressed: () => {FirebaseAuth.instance.signOut()},
           ),
         ],
       ),
