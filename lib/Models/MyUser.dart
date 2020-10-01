@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import 'Model.dart';
 
 class MyUser {
@@ -82,5 +85,42 @@ class MyUser {
   Future<MyUser> create() async {
     var newUser = await Model.create("users", this);
     return MyUser.fromJsonDatabase(newUser);
+  }
+
+  //  SESSION STUFF ///////////////////////////////
+  static Future<UserCredential> _signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    // Create a new credential
+    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  // Create product in database
+  static Future<MyUser> loginOrRegister() async {
+    // Check user
+    var user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      var userCredential = await MyUser._signInWithGoogle();
+
+      var fetchedUser = await MyUser.fetchById(userCredential.user.uid);
+      if (fetchedUser != null) {
+        return fetchedUser;
+      } else {
+        return await MyUser.fromGoogle(userCredential.user).create();
+      }
+    } else {
+      return MyUser.fromGoogle(user);
+    }
   }
 }

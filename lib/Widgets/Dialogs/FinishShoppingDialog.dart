@@ -57,41 +57,8 @@ class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
 
   // Create product in database
   void _loginOrRegister() async {
-    // Check user
-    var user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      // User not logged in, checking or creating new one
-      var userCredential = await signInWithGoogle();
-
-      var fetchedUser = await MyUser.fetchById(userCredential.user.uid);
-      if (fetchedUser == null) {
-        await MyUser.fromGoogle(userCredential.user).create();
-      }
-    } else {
-      // Create the order and the bundles in the database
-      var newOrder = Order.fromGlobalInfo(context);
-      newOrder = await newOrder.create();
-
-      // Show modal or breadcrum telling people to go to History menu
-
-    }
-  }
-
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    // Create a new credential
-    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    await MyUser.loginOrRegister();
+    var newOrder = Order.fromGlobalInfo(context);
+    newOrder = await newOrder.create();
   }
 }
