@@ -14,18 +14,19 @@ class _HistoryLoginControllerState extends State<HistoryLoginController> {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
-      if (user == null) {
-        setState(() {
-          loggedIn = false;
-        });
-      } else {
-        setState(() {
-          loggedIn = true;
-        });
-      }
-    });
+    return loggedIn ? HistoryView(checkSession) : NotLoggedIn(checkSession);
+  }
 
-    return loggedIn ? HistoryView() : NotLogedIn();
+  checkSession() {
+    var user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      setState(() {
+        loggedIn = false;
+      });
+    } else {
+      setState(() {
+        loggedIn = true;
+      });
+    }
   }
 }
