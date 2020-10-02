@@ -13,27 +13,43 @@ class HistoryView extends StatefulWidget {
 }
 
 class _HistoryViewState extends State<HistoryView> {
+  MyUser myUser = MyUser.fromGoogle(FirebaseAuth.instance.currentUser);
+
+  @override
+  initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getAllOrders();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       widget.checkSession();
     });
 
-    return Scaffold(
-      appBar: HistoryViewAppBar(height: 90),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: Text("u in boy")),
-          RaisedButton(
-            child: Text("salir"),
-            onPressed: () => {
-              FirebaseAuth.instance.signOut(),
-            },
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(child: Text("u in boy")),
+        RaisedButton(
+          child: Text("salir"),
+          onPressed: () => {
+            FirebaseAuth.instance.signOut(),
+          },
+        ),
+        RaisedButton(
+          child: Text("get orders"),
+          onPressed: () async => {print(await myUser.orders())},
+        ),
+      ],
     );
+  }
+
+  getAllOrders() async {
+    var orders = await myUser.orders();
+    print(orders);
   }
 }
 
@@ -51,32 +67,29 @@ class NotLoggedIn extends StatelessWidget {
       checkSession();
     });
 
-    return Scaffold(
-      appBar: HistoryViewAppBar(height: 90),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Aquí podrás ver todas tus compras\n",
-              style: Theme.of(context).textTheme.subtitle1,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Aquí podrás ver todas tus compras\n",
+            style: Theme.of(context).textTheme.subtitle1,
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 30.0, left: 30),
+            child: Text(
+              "Para poder verlas tienes\nque iniciar sesión",
+              style: Theme.of(context).textTheme.subtitle2,
               textAlign: TextAlign.center,
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 30.0, left: 30),
-              child: Text(
-                "Para poder verlas tienes\nque iniciar sesión",
-                style: Theme.of(context).textTheme.subtitle2,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            RaisedButton(
-              child: Text("ENTRAR CON GOOGLE"),
-              onPressed: () => {MyUser.loginOrRegister()},
-            ),
-          ],
-        ),
+          ),
+          RaisedButton(
+            child: Text("ENTRAR CON GOOGLE"),
+            onPressed: () => {MyUser.loginOrRegister()},
+          ),
+        ],
       ),
     );
   }

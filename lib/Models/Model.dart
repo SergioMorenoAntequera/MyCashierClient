@@ -42,6 +42,30 @@ class Model {
     }
   }
 
+  static Future<List> fetchRelationship(table, id, relationship) async {
+    dynamic config = await Model.getHostConfig();
+    String url = "http://" + config['host'] + ":" + config['port'];
+    url += "/" + table + "/" + id + "/" + relationship;
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      if (response.body == "false") {
+        return null;
+      } else {
+        var jsonData = json.decode(response.body);
+        return jsonData;
+      }
+    } else {
+      if (response.statusCode == 204) {
+        // No content
+        return null;
+      } else {
+        throw Exception('Error 500');
+      }
+    }
+  }
+
   // Get all in a table
   static Future<List> all(table) async {
     dynamic config = await Model.getHostConfig();

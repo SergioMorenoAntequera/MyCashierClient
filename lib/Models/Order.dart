@@ -39,6 +39,14 @@ class Order {
     );
   }
 
+  static fromJsonDatabaseWithUser(Map<String, dynamic> json, user) async {
+    return Order(
+      id: json['id'],
+      user: user,
+      totalPrice: json['total_price'].toDouble(),
+    );
+  }
+
   factory Order.fromGlobalInfo(context) {
     var newOrder = new Order();
     var myUser = MyUser.fromGoogle(FirebaseAuth.instance.currentUser);

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:qrcode_test/Models/Order.dart';
 
 import 'Model.dart';
 
@@ -71,6 +72,20 @@ class MyUser {
       'phone_number': this.phoneNumber,
       'photo_url': this.photoURL,
     };
+  }
+
+  Future<List> orders() async {
+    var fetchedOrders =
+        await Model.fetchRelationship("users", this.id, "orders");
+
+    List<Order> formatedOrders = new List();
+
+    for (var fetchedOrder in fetchedOrders) {
+      var orderFetch = await Order.fromJsonDatabaseWithUser(fetchedOrder, this);
+      formatedOrders.add(orderFetch);
+    }
+
+    return formatedOrders;
   }
 
   static Future<MyUser> fetchById(id) async {
