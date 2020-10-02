@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:qrcode_test/Models/MyUser.dart';
 import 'HistoryViewAppBar.dart';
 
 class HistoryView extends StatefulWidget {
@@ -19,7 +20,9 @@ class _HistoryViewState extends State<HistoryView> {
           Center(child: Text("u in boy")),
           RaisedButton(
             child: Text("salir"),
-            onPressed: () => {},
+            onPressed: () => {
+              FirebaseAuth.instance.signOut(),
+            },
           ),
         ],
       ),
@@ -43,7 +46,7 @@ class NotLogedIn extends StatelessWidget {
           Text("Pero para verlas tienes que guardar iniciar sesión\n"),
           RaisedButton(
             child: Text("PRA"),
-            onPressed: () => {FirebaseAuth.instance.signOut()},
+            onPressed: () => {MyUser.loginOrRegister(), print("RA")},
           ),
         ],
       ),
