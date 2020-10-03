@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Models/Order.dart';
+import 'package:qrcode_test/Widgets/OrderWidget.dart';
 
 class HistoryView extends StatefulWidget {
   final Function checkSession;
@@ -34,7 +35,7 @@ class _HistoryViewState extends State<HistoryView> {
       itemCount: orders.length,
       itemBuilder: (context, index) {
         final order = orders[index];
-        return ListTile(title: Text(order.createdAt.toString()));
+        return OrderWidget(order);
       },
     );
   }
@@ -43,7 +44,7 @@ class _HistoryViewState extends State<HistoryView> {
     var fetchedOrders = await myUser.orders();
     print(await myUser.orders());
     setState(() {
-      orders = fetchedOrders;
+      orders = fetchedOrders.reversed.toList();
     });
   }
 }

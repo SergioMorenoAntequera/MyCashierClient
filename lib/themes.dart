@@ -34,7 +34,8 @@ ThemeData buildDefaultTheme() {
 
   // Add app themes rules here like so:
   var mainTheme = new ThemeData(
-    backgroundColor: Colors.white,
+    // backgroundColor: Colors.white,
+    backgroundColor: Color(0xffD1D1D1),
 
     primaryColor: Colors.white,
     primaryColorDark: Colors.black,
