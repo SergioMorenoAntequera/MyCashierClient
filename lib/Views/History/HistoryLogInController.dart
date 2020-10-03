@@ -11,10 +11,12 @@ class HistoryLoginController extends StatefulWidget {
 }
 
 class _HistoryLoginControllerState extends State<HistoryLoginController> {
-  bool loggedIn = false;
+  bool loggedIn = true;
 
   @override
   Widget build(BuildContext context) {
+    checkSession();
+
     return Scaffold(
       appBar: HistoryViewAppBar(height: 90),
       body: loggedIn ? HistoryView(checkSession) : NotLoggedIn(checkSession),

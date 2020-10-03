@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
-import 'HistoryViewAppBar.dart';
+import 'package:qrcode_test/Models/Order.dart';
 
 class HistoryView extends StatefulWidget {
   final Function checkSession;
@@ -14,6 +14,7 @@ class HistoryView extends StatefulWidget {
 
 class _HistoryViewState extends State<HistoryView> {
   MyUser myUser = MyUser.fromGoogle(FirebaseAuth.instance.currentUser);
+  List<Order> orders = new List();
 
   @override
   initState() {
@@ -29,27 +30,20 @@ class _HistoryViewState extends State<HistoryView> {
       widget.checkSession();
     });
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(child: Text("u in boy")),
-        RaisedButton(
-          child: Text("salir"),
-          onPressed: () => {
-            FirebaseAuth.instance.signOut(),
-          },
-        ),
-        RaisedButton(
-          child: Text("get orders"),
-          onPressed: () async => {print(await myUser.orders())},
-        ),
-      ],
+    return ListView.builder(
+      itemCount: orders.length,
+      itemBuilder: (context, index) {
+        final order = orders[index];
+        return ListTile(title: Text(order.totalPrice.toString()));
+      },
     );
   }
 
   getAllOrders() async {
-    var orders = await myUser.orders();
-    print(orders);
+    var fetchedOrders = await myUser.orders();
+    setState(() {
+      orders = fetchedOrders;
+    });
   }
 }
 
