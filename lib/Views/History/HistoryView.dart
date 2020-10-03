@@ -34,13 +34,14 @@ class _HistoryViewState extends State<HistoryView> {
       itemCount: orders.length,
       itemBuilder: (context, index) {
         final order = orders[index];
-        return ListTile(title: Text(order.totalPrice.toString()));
+        return ListTile(title: Text(order.createdAt.toString()));
       },
     );
   }
 
   getAllOrders() async {
     var fetchedOrders = await myUser.orders();
+    print(await myUser.orders());
     setState(() {
       orders = fetchedOrders;
     });

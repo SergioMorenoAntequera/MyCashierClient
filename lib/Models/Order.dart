@@ -11,12 +11,14 @@ class Order {
   MyUser user;
   double totalPrice;
   List<Bundle> bundles;
+  DateTime createdAt;
 
   Order({
     this.id,
     this.user,
     this.totalPrice,
     this.bundles,
+    this.createdAt,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class Order {
       id: json['id'],
       user: fetchedUser,
       totalPrice: json['total_price'].toDouble(),
+      createdAt: DateTime.parse(json['created_at']),
     );
   }
 
@@ -44,6 +47,7 @@ class Order {
       id: json['id'],
       user: user,
       totalPrice: json['total_price'].toDouble(),
+      createdAt: DateTime.parse(json['created_at']),
     );
   }
 
