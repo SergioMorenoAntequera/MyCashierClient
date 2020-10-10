@@ -43,12 +43,15 @@ class Order {
   }
 
   static fromJsonDatabaseWithUser(Map<String, dynamic> json, user) async {
-    return Order(
+    var fetchedOrder = Order(
       id: json['id'],
       user: user,
       totalPrice: json['total_price'].toDouble(),
       createdAt: DateTime.parse(json['created_at']),
     );
+    fetchedOrder.bundles = await fetchedOrder.getBundles();
+
+    return fetchedOrder;
   }
 
   factory Order.fromGlobalInfo(context) {
@@ -68,9 +71,15 @@ class Order {
     return newOrder;
   }
 
-  getBundles() {
-    var test = Model.fetchRelationship("orders", this.id, "bundles");
-    print(test);
+  Future<List<Bundle>> getBundles() async {
+    var fetchedBundles =
+        await Model.fetchRelationship("orders", this.id.toString(), "bundles");
+
+    List<Bundle> newBundles = List();
+    for (var bundle in fetchedBundles) {
+      newBundles.add(await Bundle.fromJsonDatabase(bundle));
+    }
+    return (newBundles);
   }
 
   //////////////////////////////////////////////////////////////////////////////

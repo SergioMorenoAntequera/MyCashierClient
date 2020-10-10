@@ -42,7 +42,6 @@ class _HistoryViewState extends State<HistoryView> {
 
   getAllOrders() async {
     var fetchedOrders = await myUser.orders();
-    print(await myUser.orders());
     setState(() {
       orders = fetchedOrders.reversed.toList();
     });
