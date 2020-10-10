@@ -13,6 +13,9 @@ class BundleInOrderWidget extends StatelessWidget {
       child: Row(
         children: [
           Text(bundle.amount.toString()),
+          Text(bundle.product.name + " / "),
+          Text(bundle.product.price.toString()),
+          Text((bundle.product.price * bundle.amount).toString()),
         ],
       ),
     );

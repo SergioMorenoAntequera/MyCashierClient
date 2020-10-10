@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/Order.dart';
+import 'package:qrcode_test/Widgets/BundleInOrderWidget.dart';
 
 class OrderWidget extends StatelessWidget {
   final Order order;
@@ -9,35 +10,50 @@ class OrderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      margin: EdgeInsets.only(left: 30, top: 10, bottom: 10),
-      padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        Container(
+          color: Colors.white,
+          margin: EdgeInsets.only(left: 30, top: 10, bottom: 10),
+          padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "${order.totalPrice.toString()}€",
-                style: Theme.of(context).textTheme.headline2,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${order.totalPrice.toString()}€",
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                  Text(
+                    _formatDate(),
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ],
               ),
-              Text(
-                _formatDate(),
-                style: Theme.of(context).textTheme.bodyText2,
+              Padding(
+                padding: const EdgeInsets.only(right: 30.0),
+                child: RaisedButton(
+                  child: Text("MÁS DETALLES"),
+                  onPressed: () => {},
+                ),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 30.0),
-            child: RaisedButton(
-              child: Text("MÁS DETALLES"),
-              onPressed: () => {},
-            ),
+        ),
+        Container(
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: order.bundles.length,
+            itemBuilder: (context, index) {
+              final bundle = order.bundles[index];
+              return BundleInOrderWidget(bundle);
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
