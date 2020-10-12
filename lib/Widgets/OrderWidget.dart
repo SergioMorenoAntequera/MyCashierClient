@@ -3,10 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:qrcode_test/Models/Order.dart';
 import 'package:qrcode_test/Widgets/BundleInOrderWidget.dart';
 
-class OrderWidget extends StatelessWidget {
+class OrderWidget extends StatefulWidget {
   final Order order;
 
   OrderWidget(this.order);
+
+  @override
+  _OrderWidgetstate createState() => _OrderWidgetstate();
+}
+
+class _OrderWidgetstate extends State<OrderWidget> {
+  bool showingDetails = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,7 @@ class OrderWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${order.totalPrice.toString()}€",
+                    "${widget.order.totalPrice.toString()}€",
                     style: Theme.of(context).textTheme.headline2,
                   ),
                   Text(
@@ -36,30 +43,34 @@ class OrderWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 30.0),
                 child: RaisedButton(
                   child: Text("MÁS DETALLES"),
-                  onPressed: () => {},
+                  onPressed: () => {
+                    showingDetails = !showingDetails,
+                  },
                 ),
               ),
             ],
           ),
         ),
-        Container(
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: order.bundles.length,
-            itemBuilder: (context, index) {
-              final bundle = order.bundles[index];
-              return BundleInOrderWidget(bundle);
-            },
-          ),
-        ),
+        showingDetails
+            ? Container(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: widget.order.bundles.length,
+                  itemBuilder: (context, index) {
+                    final bundle = widget.order.bundles[index];
+                    return BundleInOrderWidget(bundle);
+                  },
+                ),
+              )
+            : Container(),
       ],
     );
   }
 
   String _formatDate() {
-    var formatedDate = order.createdAt.day.toString() + " ";
-    switch (order.createdAt.month) {
+    var formatedDate = widget.order.createdAt.day.toString() + " ";
+    switch (widget.order.createdAt.month) {
       case 1:
         formatedDate += "Enero";
         break;
