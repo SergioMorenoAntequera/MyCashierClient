@@ -11,13 +11,28 @@ class BundleInOrderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(bundle.amount.toString()),
-          Text(bundle.product.name + " / "),
-          Text(bundle.product.price.toString()),
-          Text((bundle.product.price * bundle.amount).toString()),
+          Flexible(
+            flex: 6,
+            child: Text(
+              bundle.amount.toString() + " " + bundle.product.name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          bundle.amount > 1
+              ? Flexible(
+                  flex: 2, child: Text(bundle.product.price.toString() + "€"))
+              : Container(),
+          Flexible(
+              flex: 2,
+              child: Text(
+                  (bundle.product.price * bundle.amount).toString() + "€")),
         ],
       ),
+      padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
     );
   }
 }

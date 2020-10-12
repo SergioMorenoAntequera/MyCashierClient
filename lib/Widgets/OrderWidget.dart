@@ -20,9 +20,15 @@ class _OrderWidgetstate extends State<OrderWidget> {
     return Column(
       children: [
         Container(
-          color: Colors.white,
           margin: EdgeInsets.only(left: 30, top: 10, bottom: 10),
           padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              bottomLeft: Radius.circular(20.0),
+            ),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -61,6 +67,14 @@ class _OrderWidgetstate extends State<OrderWidget> {
                     final bundle = widget.order.bundles[index];
                     return BundleInOrderWidget(bundle);
                   },
+                ),
+                margin: EdgeInsets.only(left: 60, bottom: 30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    bottomLeft: Radius.circular(20.0),
+                  ),
                 ),
               )
             : Container(),
