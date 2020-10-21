@@ -21,17 +21,24 @@ class _AddProductDialogState extends State<AddProductDialog> {
   @override
   Widget build(BuildContext context) {
     return new AlertDialog(
-      content: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Text("Ayyy, justo nos falta ese producto \n ¿Podrias ayudarnos?"),
-            buildNameFormField(),
-            buildPriceFormField(),
-          ],
+      content: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Ayyy, justo nos falta ese producto ¿Podrias ayudarnos? \n",
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+              buildNameFormField(),
+              buildPriceFormField(),
+            ],
+          ),
         ),
       ),
       actions: [
