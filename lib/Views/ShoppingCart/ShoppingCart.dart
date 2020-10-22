@@ -101,7 +101,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     var fetchedProduct = null;
     // var fetchedProduct =
     // new Product(barcode: "PRAAA", id: 23, name: "Product name", price: 34);
-    String barcode = "PRAA";
+    String barcode = "PRAAA";
 
     // LOOKING IF WE HAVE THE PRODUCT
     if (fetchedProduct == null) {
