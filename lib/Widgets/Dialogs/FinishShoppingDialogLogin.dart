@@ -4,10 +4,10 @@ import 'package:qrcode_test/Models/Cart.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Models/Order.dart';
 
-class LoginFinishShoppingDialog extends StatelessWidget {
+class FinishShoppingDialogLogin extends StatelessWidget {
   final BuildContext context;
 
-  LoginFinishShoppingDialog({this.context});
+  FinishShoppingDialogLogin({this.context});
 
   @override
   Widget build(BuildContext context) {
