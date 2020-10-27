@@ -44,7 +44,7 @@ class _HistoryViewAppBarState extends State<HistoryViewAppBar> {
                   Container(
                     padding: EdgeInsets.only(left: 10),
                     child: Text(
-                      "Este mes",
+                      "Compras",
                       style: Theme.of(context).textTheme.headline1,
                     ),
                   ),
