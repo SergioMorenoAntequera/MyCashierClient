@@ -4,16 +4,17 @@ import 'package:qrcode_test/Models/Cart.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Models/Order.dart';
 
-class FinishShoppingDialog extends StatefulWidget {
+class LoginFinishShoppingDialog extends StatefulWidget {
   final BuildContext context;
 
-  FinishShoppingDialog({this.context});
+  LoginFinishShoppingDialog({this.context});
 
   @override
-  _FinishShoppingDialogState createState() => _FinishShoppingDialogState();
+  _LoginFinishShoppingDialogState createState() =>
+      _LoginFinishShoppingDialogState();
 }
 
-class _FinishShoppingDialogState extends State<FinishShoppingDialog> {
+class _LoginFinishShoppingDialogState extends State<LoginFinishShoppingDialog> {
   final _formKey = GlobalKey<FormState>();
 
   @override

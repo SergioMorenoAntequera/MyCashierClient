@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qrcode_test/Models/Bundle.dart';
 import 'package:qrcode_test/Models/Cart.dart';
-import '../../Widgets/Dialogs/FinishShoppingDialog.dart' as dialogs;
+import '../../Widgets/Dialogs/LoginFinishShoppingDialog.dart' as dialogs;
 
 class ShoppingCartAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double height;
@@ -100,12 +99,12 @@ class FinishShoppingButton extends StatelessWidget {
 
   _finishShopping(BuildContext context) {
     if (FirebaseAuth.instance.currentUser != null) {
-      print("pra");
+      print("Aquí va el did you finish? modal");
     } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return dialogs.FinishShoppingDialog(
+          return dialogs.LoginFinishShoppingDialog(
             context: context,
           );
         },
