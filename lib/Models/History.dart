@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:qrcode_test/Models/Order.dart';
 import 'Order.dart';
 
-class Cart extends ChangeNotifier {
+class History extends ChangeNotifier {
   List<Order> orders;
 
-  Cart({this.orders});
+  History({this.orders});
 
   double getTotalPrice() {
     double totalPrice = 0;
