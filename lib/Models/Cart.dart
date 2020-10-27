@@ -70,4 +70,9 @@ class Cart extends ChangeNotifier {
     notifyListeners();
     return null;
   }
+
+  emptyCart() {
+    bundles.clear();
+    notifyListeners();
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
@@ -98,13 +99,17 @@ class FinishShoppingButton extends StatelessWidget {
   }
 
   _finishShopping(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return dialogs.FinishShoppingDialog(
-          context: context,
-        );
-      },
-    );
+    if (FirebaseAuth.instance.currentUser != null) {
+      print("pra");
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialogs.FinishShoppingDialog(
+            context: context,
+          );
+        },
+      );
+    }
   }
 }
