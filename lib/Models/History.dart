@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Models/Order.dart';
 import 'Order.dart';
 
@@ -27,6 +28,11 @@ class History extends ChangeNotifier {
   changeAll(List<Order> ordersToAdd) {
     this.orders = ordersToAdd;
     notifyListeners();
+  }
+
+  getListAndUpdate(MyUser myUser) async {
+    var myOrders = await myUser.orders();
+    this.changeAll(myOrders.reversed.toList());
   }
 
   findOrder(Order orderToFind) {

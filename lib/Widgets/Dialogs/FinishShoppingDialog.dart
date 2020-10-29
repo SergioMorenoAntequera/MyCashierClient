@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Cart.dart';
 import 'package:qrcode_test/Models/History.dart';
-import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Models/Order.dart';
 
 class FinishShoppingDialog extends StatelessWidget {

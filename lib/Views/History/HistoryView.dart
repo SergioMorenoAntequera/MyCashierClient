@@ -43,11 +43,7 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   getAllOrders() async {
-    var fetchedOrders = await myUser.orders();
-
-    Provider.of<History>(context, listen: false)
-        .changeAll(fetchedOrders.reversed.toList());
-
+    Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
     // Provider.of<History>(context, listen: false).removeAllOrders();
   }
 }
@@ -86,7 +82,7 @@ class NotLoggedIn extends StatelessWidget {
           ),
           RaisedButton(
             child: Text("ENTRAR CON GOOGLE"),
-            onPressed: () => {MyUser.loginOrRegister()},
+            onPressed: () => {MyUser.loginOrRegister(context)},
           ),
         ],
       ),

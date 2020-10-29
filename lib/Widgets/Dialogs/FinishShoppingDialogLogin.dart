@@ -46,7 +46,7 @@ class FinishShoppingDialogLogin extends StatelessWidget {
 
   // Create product in database
   void _loginOrRegister() async {
-    await MyUser.loginOrRegister();
+    await MyUser.loginOrRegister(context);
     var newOrder = Order.fromGlobalInfo(context);
     newOrder = await newOrder.create();
     Provider.of<History>(context, listen: false).addOrder(newOrder);

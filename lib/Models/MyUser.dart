@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode_test/Models/History.dart';
 import 'package:qrcode_test/Models/Order.dart';
 
 import 'Model.dart';
@@ -141,7 +143,7 @@ class MyUser {
   }
 
   // Create product in database
-  static Future<MyUser> loginOrRegister() async {
+  static Future<MyUser> loginOrRegister(context) async {
     // Check user
     var user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -151,10 +153,14 @@ class MyUser {
       if (fetchedUser != null) {
         return fetchedUser;
       } else {
-        return await MyUser.fromGoogle(userCredential.user).create();
+        var myUser = MyUser.fromGoogle(userCredential.user);
+        Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
+        return await myUser.create();
       }
     } else {
-      return MyUser.fromGoogle(user);
+      var myUser = MyUser.fromGoogle(user);
+      Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
+      return await myUser.create();
     }
   }
 }
