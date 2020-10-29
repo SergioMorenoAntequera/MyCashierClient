@@ -18,20 +18,33 @@ class History extends ChangeNotifier {
   }
 
   addOrder(Order orderToAdd) {
-    Order foundOrder = this.findOrder(orderToAdd);
-    orders.add(orderToAdd);
+    if (this.findOrder(orderToAdd) != null) return;
+
+    orders.insert(0, orderToAdd);
+    notifyListeners();
+  }
+
+  changeAll(List<Order> ordersToAdd) {
+    this.orders = ordersToAdd;
     notifyListeners();
   }
 
   findOrder(Order orderToFind) {
-    var orderFound;
-
     orders.forEach((order) {
       if (order == orderToFind) {
-        return orderFound;
+        return order;
       }
     });
-    return;
+    return null;
+  }
+
+  findById(Order orderToFind) {
+    this.orders.forEach((Order order) {
+      if (order.id == orderToFind.id) {
+        return order;
+      }
+    });
+    return null;
   }
 
   removeOrder(Order orderToRemove) {
@@ -42,5 +55,9 @@ class History extends ChangeNotifier {
       return null;
     }
     notifyListeners();
+  }
+
+  removeAllOrders() {
+    orders.clear();
   }
 }

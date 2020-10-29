@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode_test/Models/History.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Models/Order.dart';
 import 'package:qrcode_test/Widgets/OrderWidget.dart';
@@ -15,7 +17,6 @@ class HistoryView extends StatefulWidget {
 
 class _HistoryViewState extends State<HistoryView> {
   MyUser myUser = MyUser.fromGoogle(FirebaseAuth.instance.currentUser);
-  List<Order> orders = new List();
 
   @override
   initState() {
@@ -31,6 +32,7 @@ class _HistoryViewState extends State<HistoryView> {
       widget.checkSession();
     });
 
+    var orders = Provider.of<History>(context, listen: true).orders;
     return ListView.builder(
       itemCount: orders.length,
       itemBuilder: (context, index) {
@@ -42,9 +44,11 @@ class _HistoryViewState extends State<HistoryView> {
 
   getAllOrders() async {
     var fetchedOrders = await myUser.orders();
-    setState(() {
-      orders = fetchedOrders.reversed.toList();
-    });
+
+    Provider.of<History>(context, listen: false)
+        .changeAll(fetchedOrders.reversed.toList());
+
+    // Provider.of<History>(context, listen: false).removeAllOrders();
   }
 }
 

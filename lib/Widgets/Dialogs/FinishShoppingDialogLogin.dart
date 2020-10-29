@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Cart.dart';
+import 'package:qrcode_test/Models/History.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Models/Order.dart';
 
@@ -48,6 +49,7 @@ class FinishShoppingDialogLogin extends StatelessWidget {
     await MyUser.loginOrRegister();
     var newOrder = Order.fromGlobalInfo(context);
     newOrder = await newOrder.create();
+    Provider.of<History>(context, listen: false).addOrder(newOrder);
 
     Navigator.pop(context);
     Provider.of<Cart>(context, listen: true).emptyCart();

@@ -88,6 +88,25 @@ class MyUser {
     return formatedOrders;
   }
 
+  Future<List> ordersLastMoth() async {
+    var fetchedOrders =
+        await Model.fetchRelationship("users", this.id, "orders");
+
+    List<Order> formatedOrders = new List();
+
+    for (var fetchedOrder in fetchedOrders) {
+      Order orderFetch =
+          await Order.fromJsonDatabaseWithUser(fetchedOrder, this);
+      var today = DateTime.now();
+      if (orderFetch.createdAt
+          .isAfter(DateTime(today.year, today.month - 1, today.day))) {
+        formatedOrders.add(orderFetch);
+      }
+    }
+
+    return formatedOrders;
+  }
+
   static Future<MyUser> fetchById(id) async {
     var fetchedData = await Model.fetchByParameters("users", "id", id);
     if (fetchedData != null) {
