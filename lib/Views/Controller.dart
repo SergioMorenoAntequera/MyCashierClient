@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode_test/Views/History/HistoryLogInController.dart';
 import 'ShoppingCart/ShoppingCart.dart';
@@ -28,7 +29,12 @@ class _ControllerState extends State<Controller> {
   static List<Widget> _widgetOptions = <Widget>[
     ShoppingCart(),
     HistoryLoginController(),
-    Text('Index 2: Lista de la compra', style: optionStyle),
+    Center(
+      child: RaisedButton(
+        child: Text("Sign Out"),
+        onPressed: () => {FirebaseAuth.instance.signOut()},
+      ),
+    ),
   ];
 
   void _onItemTapped(int index) {
@@ -54,8 +60,8 @@ class _ControllerState extends State<Controller> {
             label: 'Historial',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Inventario',
+            icon: Icon(Icons.supervised_user_circle),
+            label: 'Usuario',
           ),
         ],
         currentIndex: _selectedIndex,
