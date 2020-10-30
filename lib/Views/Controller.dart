@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode_test/Models/History.dart';
+import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Views/History/HistoryLogInController.dart';
 import 'ShoppingCart/ShoppingCart.dart';
 
@@ -45,6 +48,11 @@ class _ControllerState extends State<Controller> {
 
   @override
   Widget build(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser != null) {
+      Provider.of<History>(context, listen: false).getListAndUpdate(
+          MyUser.fromGoogle(FirebaseAuth.instance.currentUser));
+    }
+
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
