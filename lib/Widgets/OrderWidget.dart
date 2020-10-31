@@ -10,81 +10,10 @@ class OrderWidget extends StatefulWidget {
 
   @override
   _OrderWidgetstate createState() => _OrderWidgetstate();
-}
 
-class _OrderWidgetstate extends State<OrderWidget> {
-  bool showingDetails = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(left: 30, top: 10, bottom: 10),
-          padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              bottomLeft: Radius.circular(20.0),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${widget.order.totalPrice.toString()}€",
-                    style: Theme.of(context).textTheme.headline2,
-                  ),
-                  Text(
-                    _formatDate(),
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 30.0),
-                child: RaisedButton(
-                  child: Text("MÁS DETALLES"),
-                  onPressed: () => {
-                    showingDetails = !showingDetails,
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        showingDetails
-            ? Container(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: widget.order.bundles.length,
-                  itemBuilder: (context, index) {
-                    final bundle = widget.order.bundles[index];
-                    return BundleInOrderWidget(bundle);
-                  },
-                ),
-                margin: EdgeInsets.only(left: 60, bottom: 30),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    bottomLeft: Radius.circular(20.0),
-                  ),
-                ),
-              )
-            : Container(),
-      ],
-    );
-  }
-
-  String _formatDate() {
-    var formatedDate = widget.order.createdAt.day.toString() + " ";
-    switch (widget.order.createdAt.month) {
+  static String formatDate(order) {
+    var formatedDate = order.createdAt.day.toString() + " ";
+    switch (order.createdAt.month) {
       case 1:
         formatedDate += "Enero";
         break;
@@ -124,5 +53,76 @@ class _OrderWidgetstate extends State<OrderWidget> {
       default:
     }
     return formatedDate;
+  }
+}
+
+class _OrderWidgetstate extends State<OrderWidget> {
+  bool showingDetails = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 30, top: 10, bottom: 10),
+          padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              bottomLeft: Radius.circular(20.0),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${widget.order.totalPrice.toString()}€",
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                  Text(
+                    OrderWidget.formatDate(widget.order),
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 30.0),
+                child: RaisedButton(
+                  child: Text("MÁS DETALLES"),
+                  onPressed: () => {
+                    showingDetails = !showingDetails,
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        showingDetails
+            ? Container(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: widget.order.bundles.length,
+                  itemBuilder: (context, index) {
+                    final bundle = widget.order.bundles[index];
+                    return BundleInOrderWidget(bundle);
+                  },
+                ),
+                margin: EdgeInsets.only(left: 60, bottom: 30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    bottomLeft: Radius.circular(20.0),
+                  ),
+                ),
+              )
+            : Container(),
+      ],
+    );
   }
 }

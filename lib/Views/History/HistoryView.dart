@@ -22,7 +22,7 @@ class _HistoryViewState extends State<HistoryView> {
   initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      getAllOrders();
+      // getAllOrders();
     });
   }
 
@@ -33,11 +33,37 @@ class _HistoryViewState extends State<HistoryView> {
     });
 
     var orders = Provider.of<History>(context, listen: true).orders;
+    var prevMonth = orders[0].createdAt.month;
+    var prevMonthSpend = 0.0;
+
     return ListView.builder(
       itemCount: orders.length,
       itemBuilder: (context, index) {
         final order = orders[index];
-        return OrderWidget(order);
+        prevMonthSpend += order.totalPrice;
+
+        if (order.createdAt.month != prevMonth || index == orders.length - 1) {
+          var newMonth = OrderWidget.formatDate(order);
+          newMonth = newMonth.substring(newMonth.indexOf(" ") + 1);
+          var newSpent = prevMonthSpend;
+          return Column(
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    newMonth,
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(newSpent.toString() + "€"),
+                ],
+              ),
+              OrderWidget(order),
+            ],
+          );
+        } else {
+          return OrderWidget(order);
+        }
       },
     );
   }
