@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,31 +35,32 @@ class _HistoryViewState extends State<HistoryView> {
     });
 
     var orders = Provider.of<History>(context, listen: true).orders;
-    var prevMonth = orders[0].createdAt.month;
-    var prevMonthSpend = 0.0;
+    var prevMonth = 0;
+    var newMonthIndex = 0;
 
     return ListView.builder(
       itemCount: orders.length,
       itemBuilder: (context, index) {
         final order = orders[index];
-        prevMonthSpend += order.totalPrice;
 
-        if (order.createdAt.month != prevMonth || index == orders.length - 1) {
+        if (order.createdAt.month != prevMonth || index == 0) {
+          prevMonth = order.createdAt.month;
           var newMonth = OrderWidget.formatDate(order);
           newMonth = newMonth.substring(newMonth.indexOf(" ") + 1);
-          var newSpent = prevMonthSpend;
+
+          var monthPrice = 0.0;
+          for (int i = index; i < orders.length; i++) {
+            if (orders[i].createdAt.month == prevMonth) {
+              monthPrice += orders[i].totalPrice;
+            } else {
+              break;
+            }
+          }
+
           return Column(
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    newMonth,
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(newSpent.toString() + "€"),
-                ],
-              ),
+              SizedBox(height: 20),
+              Text(newMonth + " " + monthPrice.toString() + " €"),
               OrderWidget(order),
             ],
           );
