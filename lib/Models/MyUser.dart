@@ -151,8 +151,10 @@ class MyUser {
 
       var fetchedUser = await MyUser.fetchById(userCredential.user.uid);
       if (fetchedUser != null) {
+        // User registered Log in
         return fetchedUser;
       } else {
+        // User not registered, register and logged in
         var myUser = MyUser.fromGoogle(userCredential.user);
         Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
         return await myUser.create();
@@ -160,7 +162,7 @@ class MyUser {
     } else {
       var myUser = MyUser.fromGoogle(user);
       Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
-      return await myUser.create();
+      return myUser;
     }
   }
 }

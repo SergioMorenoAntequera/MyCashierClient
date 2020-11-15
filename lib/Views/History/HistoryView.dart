@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/History.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
-import 'package:qrcode_test/Models/Order.dart';
 import 'package:qrcode_test/Widgets/OrderWidget.dart';
 
 class HistoryView extends StatefulWidget {
@@ -36,7 +33,6 @@ class _HistoryViewState extends State<HistoryView> {
 
     var orders = Provider.of<History>(context, listen: true).orders;
     var prevMonth = 0;
-    var newMonthIndex = 0;
 
     return ListView.builder(
       itemCount: orders.length,
