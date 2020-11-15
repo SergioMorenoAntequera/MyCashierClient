@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/History.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Widgets/OrderWidget.dart';
+import 'package:qrcode_test/Widgets/MonthlyPriceTagWidget.dart';
 
 class HistoryView extends StatefulWidget {
   final Function checkSession;
@@ -55,8 +56,8 @@ class _HistoryViewState extends State<HistoryView> {
 
           return Column(
             children: [
-              SizedBox(height: 20),
-              Text(newMonth + " " + monthPrice.toString() + " €"),
+              SizedBox(height: 30),
+              MonthlyPriceTagWidget(newMonth, monthPrice),
               OrderWidget(order),
             ],
           );
