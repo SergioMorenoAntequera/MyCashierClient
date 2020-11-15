@@ -26,6 +26,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     var myCartAux = Provider.of<Cart>(context, listen: true);
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: ShoppingCartAppBar(height: 90),
       body: myCartAux.bundles.isEmpty
           // Warning add something
@@ -42,12 +43,29 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 );
               },
             ),
-      floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 40),
-        child: FloatingActionButton(
-          child: Icon(Icons.search),
-          onPressed: _startScanning,
-        ),
+      floatingActionButton: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              margin: EdgeInsets.only(bottom: 20),
+              child: FloatingActionButton(
+                child: Icon(Icons.qr_code_scanner),
+                onPressed: _startScanning,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Container(
+              margin: EdgeInsets.only(bottom: 20, left: 35),
+              child: FloatingActionButton(
+                child: Icon(Icons.add_circle_outline),
+                onPressed: _addProductDirectly,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -91,24 +109,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   // Method to Scan codes
   Future _startScanning() async {
-    String barcode = await scanner.scan();
-    // String barcode = "deisi";
+    // String barcode = await scanner.scan();
+    String barcode = "deisiiiiiiiisiiiiii";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
     // LOOKING IF WE HAVE THE PRODUCT
     if (fetchedProduct == null) {
       // WE DONT, adding new one
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return new dialogs.AddProductDialog(
-            context: context,
-            barcodeToAdd: barcode,
-            notifier: notifyAddProduct,
-          );
-        },
-      );
+      askForNewProduct(barcode);
     } else {
       // WE DO
       var myCartAux = Provider.of<Cart>(context, listen: false);
@@ -122,6 +131,24 @@ class _ShoppingCartState extends State<ShoppingCart> {
       }
       notifyAddProduct();
     }
+  }
+
+  _addProductDirectly() {
+    // Crear producto nuevo con codigo aleatorio o siguiente o lo que sea
+    askForNewProduct(null);
+  }
+
+  void askForNewProduct(barcode) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return new dialogs.AddProductDialog(
+          context: context,
+          barcodeToAdd: barcode,
+          notifier: notifyAddProduct,
+        );
+      },
+    );
   }
 
   void notifyAddProduct() {

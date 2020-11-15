@@ -56,7 +56,7 @@ class _HistoryViewState extends State<HistoryView> {
 
           return Column(
             children: [
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               MonthlyPriceTagWidget(newMonth, monthPrice),
               OrderWidget(order),
             ],

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Cart.dart';
@@ -30,12 +32,23 @@ class _AddProductDialogState extends State<AddProductDialog> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              widget.barcodeToAdd != null
+                  ? Text(
+                      "Ayyy, justo nos falta ese producto ¿Podrias ayudarnos? \n",
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    )
+                  : Text(
+                      "Comprando algo sin \ncodigo de barras? \nSin Problema! \n",
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
               Text(
-                "Ayyy, justo nos falta ese producto ¿Podrias ayudarnos? \n",
-                textAlign: TextAlign.left,
-                style: Theme.of(context).textTheme.subtitle2,
+                "Nombre",
+                style: Theme.of(context).textTheme.headline3,
               ),
               buildNameFormField(),
+              Text("Precio", style: Theme.of(context).textTheme.headline3),
               buildPriceFormField(),
             ],
           ),
@@ -43,8 +56,9 @@ class _AddProductDialogState extends State<AddProductDialog> {
       ),
       actions: [
         FlatButton(
-            onPressed: () => {Navigator.pop(context)},
-            child: Text("No Añadir")),
+          onPressed: () => {Navigator.pop(context)},
+          child: Text("No Añadir"),
+        ),
         RaisedButton(onPressed: _createNewProduct, child: Text("Añadir")),
       ],
     );
@@ -53,42 +67,38 @@ class _AddProductDialogState extends State<AddProductDialog> {
   // Product Name Input
   var newProductNameController = TextEditingController();
   buildNameFormField() {
-    return Column(
-      children: [
-        Text("Nombre"),
-        TextFormField(
-          controller: newProductNameController,
-          validator: (value) {
-            if (value.isEmpty) {
-              return "Introduce un nombre por favor";
-            }
-            return null;
-          },
-        ),
-      ],
+    return TextFormField(
+      controller: newProductNameController,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(0),
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return "Introduce un nombre por favor";
+        }
+        return null;
+      },
     );
   }
 
   // Product price Input
-  static var newProductPriceController = TextEditingController();
+  var newProductPriceController = TextEditingController();
   buildPriceFormField() {
-    return Column(
-      children: [
-        Text("Precio"),
-        TextFormField(
-          keyboardType: TextInputType.number,
-          controller: newProductPriceController,
-          validator: (value) {
-            if (value.isEmpty) {
-              return "¿Cuando cuesta?";
-            }
-            if (value.contains(",")) {
-              newProductPriceController.text = value.replaceAll(",", ".");
-            }
-            return null;
-          },
-        ),
-      ],
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      controller: newProductPriceController,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(0),
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return "¿Cuando cuesta?";
+        }
+        if (value.contains(",")) {
+          newProductPriceController.text = value.replaceAll(",", ".");
+        }
+        return null;
+      },
     );
   }
 
@@ -98,9 +108,12 @@ class _AddProductDialogState extends State<AddProductDialog> {
       return null;
     }
 
+    var rng = new Random();
     var newProduct = Product(
       id: null,
-      barcode: widget.barcodeToAdd,
+      barcode: widget.barcodeToAdd != null
+          ? widget.barcodeToAdd
+          : rng.nextInt(4294967295).toString(),
       name: newProductNameController.text,
       price: double.parse(newProductPriceController.text),
     );
