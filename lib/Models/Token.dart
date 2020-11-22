@@ -1,6 +1,6 @@
 import 'package:qrcode_test/Models/Model.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Token {
   int id;
@@ -9,7 +9,19 @@ class Token {
   String type;
   int isRevoken;
 
+  final storage = new FlutterSecureStorage();
+
   Token({this.id, this.userId, this.token, this.type, this.isRevoken});
+
+  factory Token.newToken(MyUser user) {
+    return Token(
+      id: null,
+      userId: user.id,
+      token: user.id,
+      type: "user",
+      isRevoken: 0,
+    );
+  }
 
   factory Token.fromJson(Map<String, dynamic> json) {
     return Token(
@@ -33,12 +45,13 @@ class Token {
 
   ////////////////////////////////////////////////////////////////////////////
   // METHODS /////////////////////////////////////////////////////////////////
-  Future<Token> create() async {
+  Future<Token> createInDatabase() async {
     var newToken = await Model.create("tokens", this);
+    await this.createInPreferences();
     return Token.fromJsonDatabase(newToken);
   }
 
-  static Future<Token> check(MyUser user) async {
+  static Future<Token> checkInDatabase(MyUser user) async {
     var tokens = await Model.fetchRelationship("users", user.id, "tokens");
     if (tokens.last.isRevoked == 0) {
       return Token.fromJsonDatabase(tokens.last);
@@ -47,13 +60,11 @@ class Token {
     }
   }
 
-  Future<Token> createInPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("token", this.userId);
+  Future<void> createInStorage() async {
+    await storage.write(key: "token", value: this.userId);
   }
 
-  Future<Token> checkInPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getString("token");
+  Future<String> checkInStorage() async {
+    return storage.read(key: "token");
   }
 }
