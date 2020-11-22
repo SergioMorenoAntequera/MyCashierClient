@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:qrcode_test/Models/Token.dart';
 
 class Model {
   // Get connection data
@@ -23,7 +27,11 @@ class Model {
       url += "/" + table + "/" + parameter + "/" + value.toString();
     }
 
-    final response = await http.get(url);
+    String authToken = await Token.checkInStorage();
+    final response = await http.get(
+      url,
+      headers: {HttpHeaders.authorizationHeader: authToken},
+    );
 
     if (response.statusCode == 200) {
       if (response.body == "false") {
@@ -46,8 +54,12 @@ class Model {
     dynamic config = await Model.getHostConfig();
     String url = "http://" + config['host'] + ":" + config['port'];
     url += "/" + table + "/" + id + "/" + relationship;
+    String authToken = await Token.checkInStorage();
 
-    final response = await http.get(url);
+    final response = await http.get(
+      url,
+      headers: {HttpHeaders.authorizationHeader: authToken},
+    );
 
     if (response.statusCode == 200) {
       if (response.body == "false") {
@@ -85,6 +97,7 @@ class Model {
   static Future<dynamic> create(table, object) async {
     var hostConfig = await Model.getHostConfig();
     var url = 'http://' + hostConfig['host'] + ":" + hostConfig['port'];
+    String authToken = await Token.checkInStorage();
 
     var data;
     try {
@@ -98,6 +111,7 @@ class Model {
       url + '/$table',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: authToken
       },
       body: data,
     );

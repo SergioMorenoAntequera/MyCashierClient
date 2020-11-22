@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/History.dart';
 import 'package:qrcode_test/Models/Order.dart';
+import 'package:qrcode_test/Models/Token.dart';
 
 import 'Model.dart';
 
@@ -146,21 +147,29 @@ class MyUser {
     // Check user
     var user = FirebaseAuth.instance.currentUser;
     if (user == null) {
+      //Not logged in
       var userCredential = await MyUser._signInWithGoogle();
 
       var fetchedUser = await MyUser.fetchById(userCredential.user.uid);
       if (fetchedUser != null) {
         // User registered Log in
+        Token.checkandCreateEverything(fetchedUser);
+
         return fetchedUser;
       } else {
         // User not registered, register and logged in
         var myUser = MyUser.fromGoogle(userCredential.user);
         Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
-        return await myUser.create();
+        await myUser.create();
+        await Token.defaultToken(myUser).createInDatabase();
+        return myUser;
       }
     } else {
+      // Logged in
       var myUser = MyUser.fromGoogle(user);
       Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
+      Token.checkandCreateEverything(myUser);
+
       return myUser;
     }
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Bundle.dart';
 import 'package:qrcode_test/Models/Cart.dart';
+import 'package:qrcode_test/Models/Token.dart';
 import 'package:qrcode_test/Views/ShoppingCart/ShoppingCartAppBar.dart';
 import 'package:qrcode_test/Widgets/BundleWidget.dart';
 import '../../Widgets/Dialogs/AddProductDialog.dart' as dialogs;
@@ -134,7 +135,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   _addProductDirectly() {
-    askForNewProduct(null);
+    print(Token.checkInStorage());
+    //askForNewProduct(null);
   }
 
   void askForNewProduct(barcode) {

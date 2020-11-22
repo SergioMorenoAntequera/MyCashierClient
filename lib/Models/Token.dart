@@ -13,7 +13,7 @@ class Token {
 
   Token({this.id, this.userId, this.token, this.type, this.isRevoken});
 
-  factory Token.newToken(MyUser user) {
+  factory Token.defaultToken(MyUser user) {
     return Token(
       id: null,
       userId: user.id,
@@ -47,7 +47,7 @@ class Token {
   // METHODS /////////////////////////////////////////////////////////////////
   Future<Token> createInDatabase() async {
     var newToken = await Model.create("tokens", this);
-    await this.createInPreferences();
+    await this.createInStorage();
     return Token.fromJsonDatabase(newToken);
   }
 
@@ -64,7 +64,20 @@ class Token {
     await storage.write(key: "token", value: this.userId);
   }
 
-  Future<String> checkInStorage() async {
+  static Future<String> checkInStorage() async {
+    final storage = new FlutterSecureStorage();
     return storage.read(key: "token");
+  }
+
+  static Future<String> checkandCreateEverything(MyUser user) async {
+    var token = await checkInStorage();
+    if (token == null) {
+      token = (await checkInDatabase(user)).token;
+    }
+
+    if (token == null) {
+      token = (await Token.defaultToken(user).createInDatabase()).token;
+    }
+    return token;
   }
 }
