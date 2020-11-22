@@ -134,8 +134,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
     }
   }
 
-  _addProductDirectly() {
-    print(Token.checkInStorage());
+  _addProductDirectly() async {
+    print(await Token.checkInStorage());
     //askForNewProduct(null);
   }
 

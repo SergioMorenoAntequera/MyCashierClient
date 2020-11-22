@@ -1,17 +1,15 @@
 import 'package:qrcode_test/Models/Model.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Token {
   int id;
   String userId;
   String token;
   String type;
-  int isRevoken;
+  int isRevoked;
 
-  final storage = new FlutterSecureStorage();
-
-  Token({this.id, this.userId, this.token, this.type, this.isRevoken});
+  Token({this.id, this.userId, this.token, this.type, this.isRevoked});
 
   factory Token.defaultToken(MyUser user) {
     return Token(
@@ -19,7 +17,7 @@ class Token {
       userId: user.id,
       token: user.id,
       type: "user",
-      isRevoken: 0,
+      isRevoked: 0,
     );
   }
 
@@ -29,7 +27,7 @@ class Token {
       userId: json['userId'],
       token: json['token'],
       type: json['type'],
-      isRevoken: json['isRevoken'],
+      isRevoked: json['isRevoked'],
     );
   }
 
@@ -39,8 +37,28 @@ class Token {
       userId: json['user_id'],
       token: json['token'],
       type: json['type'],
-      isRevoken: json['is_revoken'],
+      isRevoked: json['is_revoked'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': this.id,
+      'user_id': this.userId,
+      'token': this.token,
+      'type': this.type,
+      'is_revoked': this.isRevoked,
+    };
+  }
+
+  Map<String, dynamic> toJsonDatabase() {
+    return {
+      'id': this.id,
+      'user_id': this.userId,
+      'token': this.token,
+      'type': this.type,
+      'is_revoked': this.isRevoked,
+    };
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -53,26 +71,32 @@ class Token {
 
   static Future<Token> checkInDatabase(MyUser user) async {
     var tokens = await Model.fetchRelationship("users", user.id, "tokens");
-    if (tokens.last.isRevoked == 0) {
-      return Token.fromJsonDatabase(tokens.last);
+    if (tokens.length == 0) return null;
+
+    var fetchedToken = Token.fromJsonDatabase(tokens.last);
+    if (fetchedToken.isRevoked == 0) {
+      return fetchedToken;
     } else {
       return null;
     }
   }
 
   Future<void> createInStorage() async {
-    await storage.write(key: "token", value: this.userId);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("token", this.userId);
   }
 
   static Future<String> checkInStorage() async {
-    final storage = new FlutterSecureStorage();
-    return storage.read(key: "token");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("token");
   }
 
   static Future<String> checkandCreateEverything(MyUser user) async {
     var token = await checkInStorage();
+
     if (token == null) {
-      token = (await checkInDatabase(user)).token;
+      var tokenDatabase = await checkInDatabase(user);
+      if (tokenDatabase != null) token = tokenDatabase.token;
     }
 
     if (token == null) {
