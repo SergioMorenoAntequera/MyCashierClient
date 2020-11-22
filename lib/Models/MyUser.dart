@@ -110,6 +110,18 @@ class MyUser {
     return formatedOrders;
   }
 
+  Future<Token> activeToken() async {
+    var fetchedTokens =
+        await Model.fetchRelationship("users", this.id, "tokens");
+
+    var orderFetch = Token.fromJsonDatabase(fetchedTokens.last);
+    if (orderFetch.isRevoked != 1) {
+      return orderFetch;
+    }
+
+    return null;
+  }
+
   static Future<MyUser> fetchById(id) async {
     var fetchedData = await Model.fetchByParameters("users", "id", id);
     if (fetchedData != null) {
