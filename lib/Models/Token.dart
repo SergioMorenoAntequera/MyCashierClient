@@ -1,11 +1,13 @@
 import 'package:qrcode_test/Models/Model.dart';
+import 'package:qrcode_test/Models/MyUser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Token {
   int id;
   String userId;
   String token;
   String type;
-  bool isRevoken;
+  int isRevoken;
 
   Token({this.id, this.userId, this.token, this.type, this.isRevoken});
 
@@ -36,8 +38,22 @@ class Token {
     return Token.fromJsonDatabase(newToken);
   }
 
-  Future<Token> createRandomToken() async {
-    var newToken = await Model.create("tokens", this);
-    return Token.fromJsonDatabase(newToken);
+  static Future<Token> check(MyUser user) async {
+    var tokens = await Model.fetchRelationship("users", user.id, "tokens");
+    if (tokens.last.isRevoked == 0) {
+      return Token.fromJsonDatabase(tokens.last);
+    } else {
+      return null;
+    }
+  }
+
+  Future<Token> createInPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("token", this.userId);
+  }
+
+  Future<Token> checkInPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString("token");
   }
 }

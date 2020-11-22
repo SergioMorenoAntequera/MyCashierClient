@@ -142,7 +142,6 @@ class MyUser {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  // Create product in database
   static Future<MyUser> loginOrRegister(context) async {
     // Check user
     var user = FirebaseAuth.instance.currentUser;
