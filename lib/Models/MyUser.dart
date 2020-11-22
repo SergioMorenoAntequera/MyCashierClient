@@ -165,7 +165,7 @@ class MyUser {
       var fetchedUser = await MyUser.fetchById(userCredential.user.uid);
       if (fetchedUser != null) {
         // User registered Log in
-        Token.checkandCreateEverything(fetchedUser);
+        Token.checkAndCreateEverything(fetchedUser);
 
         return fetchedUser;
       } else {
@@ -180,7 +180,7 @@ class MyUser {
       // Logged in
       var myUser = MyUser.fromGoogle(user);
       Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
-      Token.checkandCreateEverything(myUser);
+      Token.checkAndCreateEverything(myUser);
 
       return myUser;
     }

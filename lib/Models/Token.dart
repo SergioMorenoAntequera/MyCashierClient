@@ -91,7 +91,7 @@ class Token {
     return prefs.getString("token");
   }
 
-  static Future<String> checkandCreateEverything(MyUser user) async {
+  static Future<String> checkAndCreateEverything(MyUser user) async {
     var token = await checkInStorage();
 
     if (token == null) {
