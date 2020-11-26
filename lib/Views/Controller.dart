@@ -24,10 +24,6 @@ class _ControllerState extends State<Controller> {
   // NAVEGATION BAR ///////////////////////////////////////////////////////////
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 30,
-  );
 
   static List<Widget> _widgetOptions = <Widget>[
     ShoppingCart(),
@@ -48,11 +44,6 @@ class _ControllerState extends State<Controller> {
 
   @override
   Widget build(BuildContext context) {
-    if (FirebaseAuth.instance.currentUser != null) {
-      Provider.of<History>(context, listen: false).getListAndUpdate(
-          MyUser.fromGoogle(FirebaseAuth.instance.currentUser));
-    }
-
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

@@ -166,7 +166,6 @@ class MyUser {
       if (fetchedUser != null) {
         // User registered Log in
         Token.checkAndCreateEverything(fetchedUser);
-
         return fetchedUser;
       } else {
         // User not registered, register and logged in
