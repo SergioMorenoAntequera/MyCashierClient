@@ -167,8 +167,8 @@ class MyUser {
       if (fetchedUser != null) {
         // User registered // Logging in
         Token.checkAndCreateEverything(fetchedUser);
-        // Provider.of<History>(context, listen: false).getListAndUpdate(
-        //     MyUser.fromGoogle(FirebaseAuth.instance.currentUser));
+        // Provider.of<History>(context, listen: false)
+        //     .getListAndUpdate(fetchedUser);
         return fetchedUser;
       } else {
         // User NOT registered // Register and Logging In

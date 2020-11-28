@@ -25,6 +25,5 @@ class UserProfile extends StatelessWidget {
 
 _signOut(context) {
   FirebaseAuth.instance.signOut();
-  Provider.of<History>(context, listen: false)
-      .getListAndUpdate(MyUser.fromGoogle(FirebaseAuth.instance.currentUser));
+  Provider.of<History>(context, listen: false).removeAllOrders();
 }
