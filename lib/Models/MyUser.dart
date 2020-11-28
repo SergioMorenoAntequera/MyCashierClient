@@ -160,15 +160,18 @@ class MyUser {
     var user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       //Not logged in
-      var userCredential = await MyUser._signInWithGoogle();
 
+      var userCredential = await MyUser._signInWithGoogle();
       var fetchedUser = await MyUser.fetchById(userCredential.user.uid);
+
       if (fetchedUser != null) {
-        // User registered Log in
+        // User registered // Logging in
         Token.checkAndCreateEverything(fetchedUser);
+        // Provider.of<History>(context, listen: false).getListAndUpdate(
+        //     MyUser.fromGoogle(FirebaseAuth.instance.currentUser));
         return fetchedUser;
       } else {
-        // User not registered, register and logged in
+        // User NOT registered // Register and Logging In
         var myUser = MyUser.fromGoogle(userCredential.user);
         Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
         await myUser.create();

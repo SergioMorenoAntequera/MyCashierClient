@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/History.dart';
 import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Views/History/HistoryLogInController.dart';
+import 'package:qrcode_test/Views/UserProfile/UserProfile.dart';
 import 'ShoppingCart/ShoppingCart.dart';
 
 class Controller extends StatefulWidget {
@@ -28,12 +29,7 @@ class _ControllerState extends State<Controller> {
   static List<Widget> _widgetOptions = <Widget>[
     ShoppingCart(),
     HistoryLoginController(),
-    Center(
-      child: RaisedButton(
-        child: Text("Sign Out"),
-        onPressed: () => {FirebaseAuth.instance.signOut()},
-      ),
-    ),
+    UserProfile()
   ];
 
   void _onItemTapped(int index) {
@@ -44,6 +40,11 @@ class _ControllerState extends State<Controller> {
 
   @override
   Widget build(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser != null) {
+      Provider.of<History>(context, listen: false).getListAndUpdate(
+          MyUser.fromGoogle(FirebaseAuth.instance.currentUser));
+    }
+
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
