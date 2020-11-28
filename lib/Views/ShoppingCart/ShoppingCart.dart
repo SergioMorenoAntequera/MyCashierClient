@@ -26,7 +26,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      appBar: ShoppingCartAppBar(height: 90),
+      appBar: ShoppingCartAppBar(),
       body: myCartAux.bundles.isEmpty
           // Warning add something
           ? buildEmptyCartWarning()

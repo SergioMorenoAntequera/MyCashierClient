@@ -18,7 +18,7 @@ class _HistoryLoginControllerState extends State<HistoryLoginController> {
     checkSession();
 
     return Scaffold(
-      appBar: HistoryViewAppBar(height: 90),
+      appBar: HistoryViewAppBar(),
       body: loggedIn ? HistoryView(checkSession) : NotLoggedIn(checkSession),
     );
   }

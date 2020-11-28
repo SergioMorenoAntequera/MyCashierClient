@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-class HistoryViewAppBar extends StatelessWidget implements PreferredSizeWidget {
+class UserProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height = 90;
-
-  const HistoryViewAppBar({Key key}) : super(key: key);
+  const UserProfileAppBar({Key key}) : super(key: key);
 
   @override
   Size get preferredSize => Size.fromHeight(height);
@@ -39,11 +38,10 @@ class HistoryViewAppBar extends StatelessWidget implements PreferredSizeWidget {
                   Container(
                     padding: EdgeInsets.only(left: 10),
                     child: Text(
-                      "Compras",
+                      "Mi perfíl",
                       style: Theme.of(context).textTheme.headline1,
                     ),
                   ),
-                  // Finish shopping Button
                 ],
               ),
             ),

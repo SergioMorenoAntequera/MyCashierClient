@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/Cart.dart';
@@ -7,9 +6,9 @@ import '../../Widgets/Dialogs/FinishShoppingDialog.dart';
 import '../../Widgets/Dialogs/FinishShoppingDialogLogin.dart';
 
 class ShoppingCartAppBar extends StatefulWidget implements PreferredSizeWidget {
-  final double height;
+  final double height = 90;
 
-  const ShoppingCartAppBar({Key key, @required this.height}) : super(key: key);
+  const ShoppingCartAppBar({Key key}) : super(key: key);
 
   @override
   _ShoppingCartAppBarState createState() => _ShoppingCartAppBarState();
