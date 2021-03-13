@@ -13,8 +13,8 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(builder: (context) => Cart(bundles: [])),
-        ChangeNotifierProvider(builder: (context) => History(orders: [])),
+        ChangeNotifierProvider(create: (context) => Cart(bundles: [])),
+        ChangeNotifierProvider(create: (context) => History(orders: [])),
       ],
       child: MyApp(),
     ),

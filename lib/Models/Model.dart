@@ -20,16 +20,16 @@ class Model {
   static Future<Map<String, dynamic>> fetchByParameters(
       table, parameter, value) async {
     dynamic config = await Model.getHostConfig();
-    String url = "http://" + config['host'] + ":" + config['port'];
-    if (parameter == "id") {
-      url += "/" + table + "/" + value.toString();
-    } else {
-      url += "/" + table + "/" + parameter + "/" + value.toString();
-    }
+    String url = config['host'] + ":" + config['port'];
+    String path = "";
+    if (parameter == "id")
+      path += "/" + table + "/" + value.toString();
+    else
+      path += "/" + table + "/" + parameter + "/" + value.toString();
 
     String authToken = await Token.checkInStorage();
     final response = await http.get(
-      url,
+      new Uri.https(url, path),
       headers: {HttpHeaders.authorizationHeader: authToken},
     );
 
@@ -52,12 +52,12 @@ class Model {
 
   static Future<List> fetchRelationship(table, id, relationship) async {
     dynamic config = await Model.getHostConfig();
-    String url = "http://" + config['host'] + ":" + config['port'];
-    url += "/" + table + "/" + id + "/" + relationship;
+    String url = config['host'] + ":" + config['port'];
+    String path = "/" + table + "/" + id + "/" + relationship;
     String authToken = await Token.checkInStorage();
 
     final response = await http.get(
-      url,
+      new Uri.https(url, path),
       headers: {HttpHeaders.authorizationHeader: authToken},
     );
 
@@ -81,9 +81,9 @@ class Model {
   // Get all in a table
   static Future<List> all(table) async {
     dynamic config = await Model.getHostConfig();
-    String url = "http://" + config['host'] + ":" + config['port'];
-    url += "/" + table;
-    final response = await http.get(url);
+    String url = config['host'] + ":" + config['port'];
+    String path = "/" + table;
+    final response = await http.get(new Uri.https(url, path));
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
@@ -108,7 +108,7 @@ class Model {
     }
 
     final response = await http.post(
-      url + '/$table',
+      new Uri.https(url, "/$table"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: authToken
