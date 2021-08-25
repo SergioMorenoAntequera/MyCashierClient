@@ -158,9 +158,12 @@ class MyUser {
   static Future<MyUser> loginOrRegister(context) async {
     // Check user
     var user = FirebaseAuth.instance.currentUser;
+    var myUser = MyUser();
+    var logInAction = "";
+
     if (user == null) {
       //Not logged in
-
+      logInAction = "loginIn";
       var userCredential = await MyUser._signInWithGoogle();
       var fetchedUser = await MyUser.fetchById(userCredential.user.uid);
 
@@ -171,6 +174,7 @@ class MyUser {
         //     .getListAndUpdate(fetchedUser);
         return fetchedUser;
       } else {
+        logInAction = "register";
         // User NOT registered // Register and Logging In
         var myUser = MyUser.fromGoogle(userCredential.user);
         Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
@@ -180,11 +184,24 @@ class MyUser {
       }
     } else {
       // Logged in
-      var myUser = MyUser.fromGoogle(user);
+      logInAction = "loggedIn";
+      MyUser.fromGoogle(user);
       Provider.of<History>(context, listen: false).getListAndUpdate(myUser);
       Token.checkAndCreateEverything(myUser);
-
-      return myUser;
     }
+
+    switch (logInAction) {
+      case "loggedIn":
+        {}
+        break;
+      case "loginIn":
+        {}
+        break;
+      case "register":
+        {}
+        break;
+    }
+
+    return myUser;
   }
 }

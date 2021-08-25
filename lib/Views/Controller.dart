@@ -40,10 +40,10 @@ class _ControllerState extends State<Controller> {
 
   @override
   Widget build(BuildContext context) {
-    if (FirebaseAuth.instance.currentUser != null) {
+    /*if (FirebaseAuth.instance.currentUser != null) {
       Provider.of<History>(context, listen: false).getListAndUpdate(
           MyUser.fromGoogle(FirebaseAuth.instance.currentUser));
-    }
+    }*/
 
     return Scaffold(
       body: Center(
