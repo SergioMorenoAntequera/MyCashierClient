@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MonthlyPriceTagWidget extends StatelessWidget {
-  String monthName;
-  double monthPrice;
+  final String monthName;
+  final double monthPrice;
 
   MonthlyPriceTagWidget(this.monthName, this.monthPrice);
 

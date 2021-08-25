@@ -43,14 +43,14 @@ class _ConfirmDeleteBundleDialogState extends State<ConfirmDeleteBundleDialog> {
         ),
       ),
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: () => {Navigator.pop(context)},
           child: Text(
             "No, quiero comprar esto",
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
-        RaisedButton(
+        ElevatedButton(
           onPressed: deleteBundle,
           child: Text("Sí, bórralo"),
         ),

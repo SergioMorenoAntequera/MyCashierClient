@@ -55,11 +55,11 @@ class _AddProductDialogState extends State<AddProductDialog> {
         ),
       ),
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: () => {Navigator.pop(context)},
           child: Text("No Añadir"),
         ),
-        RaisedButton(onPressed: _createNewProduct, child: Text("Añadir")),
+        ElevatedButton(onPressed: _createNewProduct, child: Text("Añadir")),
       ],
     );
   }

@@ -91,7 +91,7 @@ class _OrderWidgetstate extends State<OrderWidget> {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 30.0),
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text("MÁS DETALLES"),
                   onPressed: () => {
                     showingDetails = !showingDetails,

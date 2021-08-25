@@ -107,8 +107,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   // Method to Scan codes
   Future _startScanning() async {
-    //String barcode = await scanner.scan();
-    String barcode = "deisiiiiiiiisiiiiii";
+    String barcode = await scanner.scan();
+    //String barcode = "deisiiiiiiiisiiiiii";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
@@ -157,7 +157,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       content: Text('Producto añadido al carrito'),
     );
 
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
     if (myCartAux.bundles.length > 1) {
       Timer(

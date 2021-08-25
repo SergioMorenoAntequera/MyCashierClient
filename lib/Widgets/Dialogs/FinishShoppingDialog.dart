@@ -31,11 +31,11 @@ class FinishShoppingDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: () => {Navigator.pop(context)},
           child: Text("Espera!", style: Theme.of(context).textTheme.bodyText1),
         ),
-        RaisedButton(
+        ElevatedButton(
           onPressed: _createOrder,
           child: Text("Listo, guárdala"),
         ),

@@ -75,7 +75,7 @@ class Order {
     var fetchedBundles =
         await Model.fetchRelationship("orders", this.id.toString(), "bundles");
 
-    List<Bundle> newBundles = List();
+    List<Bundle> newBundles = [];
     for (var bundle in fetchedBundles) {
       newBundles.add(await Bundle.fromJsonDatabase(bundle));
     }

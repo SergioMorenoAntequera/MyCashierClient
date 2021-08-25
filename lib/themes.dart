@@ -39,7 +39,7 @@ ThemeData buildDefaultTheme() {
 
     primaryColor: Colors.white,
     primaryColorDark: Colors.black,
-    cursorColor: Color(0xff747474),
+    buttonColor: Color(0xff747474),
     accentColor: Color(0xff4790FF),
 
     // Adding the text theme

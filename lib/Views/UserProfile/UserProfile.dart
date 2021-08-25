@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode_test/Models/History.dart';
-import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Views/UserProfile/UserProfileAppBar.dart';
 
 class UserProfile extends StatelessWidget {
@@ -14,7 +13,7 @@ class UserProfile extends StatelessWidget {
     return Scaffold(
       appBar: UserProfileAppBar(),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text("Sign Out"),
           onPressed: () => {_signOut(context)},
         ),

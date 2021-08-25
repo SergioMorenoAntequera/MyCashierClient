@@ -106,7 +106,7 @@ class NotLoggedIn extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("ENTRAR CON GOOGLE"),
             onPressed: () => {MyUser.loginOrRegister(context)},
           ),
