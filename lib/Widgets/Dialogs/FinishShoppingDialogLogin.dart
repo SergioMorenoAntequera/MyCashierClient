@@ -32,11 +32,11 @@ class FinishShoppingDialogLogin extends StatelessWidget {
         ],
       ),
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: () => {Navigator.pop(context)},
           child: Text("Cancelar", style: Theme.of(context).textTheme.bodyText1),
         ),
-        RaisedButton(
+        ElevatedButton(
           onPressed: _loginOrRegister,
           child: Text("Iniciar Sesión"),
         ),

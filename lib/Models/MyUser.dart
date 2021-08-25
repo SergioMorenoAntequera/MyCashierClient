@@ -81,7 +81,7 @@ class MyUser {
     var fetchedOrders =
         await Model.fetchRelationship("users", this.id, "orders");
 
-    List<Order> formatedOrders = new List();
+    List<Order> formatedOrders = [];
 
     for (var fetchedOrder in fetchedOrders) {
       var orderFetch = await Order.fromJsonDatabaseWithUser(fetchedOrder, this);
@@ -95,7 +95,7 @@ class MyUser {
     var fetchedOrders =
         await Model.fetchRelationship("users", this.id, "orders");
 
-    List<Order> formatedOrders = new List();
+    List<Order> formatedOrders = [];
 
     for (var fetchedOrder in fetchedOrders) {
       Order orderFetch =

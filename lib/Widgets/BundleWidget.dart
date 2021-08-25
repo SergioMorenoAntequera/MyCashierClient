@@ -75,7 +75,7 @@ class _BundleWidgetState extends State<BundleWidget> {
                     IconButton(
                       padding: EdgeInsets.all(0),
                       icon: Icon(Icons.remove_circle),
-                      color: Theme.of(context).cursorColor,
+                      color: Theme.of(context).buttonColor,
                       iconSize: 40,
                       onPressed: () => {
                         setState(() {
@@ -107,7 +107,7 @@ class _BundleWidgetState extends State<BundleWidget> {
                     IconButton(
                       padding: EdgeInsets.all(0),
                       icon: Icon(Icons.add_circle),
-                      color: Theme.of(context).cursorColor,
+                      color: Theme.of(context).buttonColor,
                       iconSize: 40,
                       onPressed: () => {
                         setState(() {

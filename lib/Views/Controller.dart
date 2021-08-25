@@ -1,8 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:qrcode_test/Models/History.dart';
-import 'package:qrcode_test/Models/MyUser.dart';
 import 'package:qrcode_test/Views/History/HistoryLogInController.dart';
 import 'package:qrcode_test/Views/UserProfile/UserProfile.dart';
 import 'ShoppingCart/ShoppingCart.dart';
