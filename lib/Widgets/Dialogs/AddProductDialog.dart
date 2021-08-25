@@ -120,7 +120,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
     newProduct = await newProduct.create();
 
     Bundle newBundle = new Bundle(product: newProduct, amount: 1);
-    Provider.of<Cart>(context, listen: true).addBundle(newBundle);
+    Provider.of<Cart>(context, listen: false).addBundle(newBundle);
 
     // widget.notifier();
     Navigator.pop(context);

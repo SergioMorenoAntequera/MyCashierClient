@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -29,7 +28,7 @@ class Model {
 
     String authToken = await Token.checkInStorage();
     final response = await http.get(
-      new Uri.https(url, path),
+      new Uri.http(url, path),
       headers: {HttpHeaders.authorizationHeader: authToken},
     );
 
@@ -57,7 +56,7 @@ class Model {
     String authToken = await Token.checkInStorage();
 
     final response = await http.get(
-      new Uri.https(url, path),
+      new Uri.http(url, path),
       headers: {HttpHeaders.authorizationHeader: authToken},
     );
 
@@ -83,7 +82,7 @@ class Model {
     dynamic config = await Model.getHostConfig();
     String url = config['host'] + ":" + config['port'];
     String path = "/" + table;
-    final response = await http.get(new Uri.https(url, path));
+    final response = await http.get(new Uri.http(url, path));
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
@@ -96,7 +95,7 @@ class Model {
   // Create register in a table
   static Future<dynamic> create(table, object) async {
     var hostConfig = await Model.getHostConfig();
-    var url = 'http://' + hostConfig['host'] + ":" + hostConfig['port'];
+    var url = hostConfig['host'] + ":" + hostConfig['port'];
     String authToken = await Token.checkInStorage();
 
     var data;
@@ -108,7 +107,7 @@ class Model {
     }
 
     final response = await http.post(
-      new Uri.https(url, "/$table"),
+      new Uri.http(url, "/$table"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: authToken

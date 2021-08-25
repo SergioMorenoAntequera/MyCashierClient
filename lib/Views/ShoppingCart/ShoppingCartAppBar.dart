@@ -80,17 +80,16 @@ class FinishShoppingButton extends StatelessWidget {
       margin: EdgeInsets.only(right: 10),
       child: Provider.of<Cart>(context, listen: true).bundles.length > 0
           ? ElevatedButton(
-              child: Container(
-                padding:
-                    EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
-                color: Colors.black,
-                child: Text(
-                  "Terminar compra",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                  ),
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                      EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15)),
+                  backgroundColor: MaterialStateProperty.all(Colors.black)),
+              child: Text(
+                "Terminar compra",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
                 ),
               ),
               onPressed: () => {

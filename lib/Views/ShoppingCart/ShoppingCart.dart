@@ -107,8 +107,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   // Method to Scan codes
   Future _startScanning() async {
-    String barcode = await scanner.scan();
-    //String barcode = "deisiiiiiiiisiiiiii";
+    //String barcode = await scanner.scan();
+    String barcode = "deisiiiiiiiisiiiiii";
 
     var fetchedProduct = await Product.fetchByBarcode(barcode);
 
